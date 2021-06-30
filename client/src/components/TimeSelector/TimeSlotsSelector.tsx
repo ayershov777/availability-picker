@@ -1,4 +1,3 @@
-import { stringify } from 'querystring';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
@@ -69,6 +68,8 @@ export default function TimeSlotsSelector({ dayIdx, events, x }: TimeSlotsSelect
 
     const slotElRef = useRef<HTMLDivElement>(null);
     const lastEventRef = useRef<CalendarEvent | null>(null);
+    const TOPDOWN=1, BOTTOMUP=2;
+    const shrinkType = useRef<number>(0);
 
     function getHandleStartSelection(slot: TimeSlot, idx: number, slots: TimeSlot[]) {
         return getHandleSelectSlot(slot, idx, slots, true)
@@ -253,10 +254,12 @@ export default function TimeSlotsSelector({ dayIdx, events, x }: TimeSlotsSelect
         return mouseY >= y0 && mouseY <= y1;
     }
 
-    function handleMouseOverAvailability(e: React.MouseEvent<HTMLDivElement>) {
+    function handleMouseOverAvailability(e: React.MouseEvent<HTMLDivElement>, event: CalendarEvent, idx:number) {
         const element = e.currentTarget;
         
-        const resizeArea = isMouseInResizeArea(element, e.clientY);
+        const inTop = isMouseInTopResizeArea(element, e.clientY);
+        const inBottom = isMouseInBottomResizeArea(element, e.clientY);
+        const resizeArea = inTop || inBottom;
 
         if (resizeArea) {
             element.style.cursor = 'ns-resize';
@@ -264,6 +267,46 @@ export default function TimeSlotsSelector({ dayIdx, events, x }: TimeSlotsSelect
         else {
             element.style.cursor = 'default';
         }
+
+        if(e.buttons !== 1){ 
+            return;
+        }
+        if (inTop) shrinkType.current = TOPDOWN;
+        else if (inBottom) shrinkType.current = BOTTOMUP;
+console.log('shrinkType: ', shrinkType.current, 'e.movementY: ',e.movementY);
+
+        const newSlots = [...slots];
+        let newEvent;
+        if (shrinkType.current === TOPDOWN && e.movementY > 0) {
+            const newStartTime = new Date(event.startTime);
+            const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+            const delta = (rect.top-e.clientY) / 18 * 15;
+            newStartTime.setMinutes(event.endTime.getMinutes() - delta);
+            newEvent = {startTime: newStartTime, endTime: event.endTime};
+            const oldIndex = getTimeIndex(event.startTime);
+            const newIndex = getTimeIndex(newStartTime);
+            if (oldIndex < newIndex && newSlots[oldIndex]) newSlots[oldIndex].event = undefined;
+        } else if (shrinkType.current === BOTTOMUP && e.movementY < 0) {
+            const newEndTime = new Date(event.endTime);
+            const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+            const delta = (rect.bottom-e.clientY) / 18 * 15;
+            newEndTime.setMinutes(event.startTime.getMinutes() - delta);
+            newEvent = {startTime: event.startTime, endTime: newEndTime};
+            const oldIndex = getTimeIndex(event.endTime);
+            const newIndex = getTimeIndex(newEndTime);
+            if (oldIndex > newIndex && newSlots[oldIndex]) newSlots[oldIndex].event = undefined;
+        } else return;
+        // else if (shrinkType.current === TOPDOWN && e.movementY < 0 || shrinkType.current === BOTTOMUP && e.movementY > 0) {
+        //     getHandleSelectSlot(slot, idx, slots);
+        // }
+
+        // lastEventRef.current = event;
+
+        setSlots([...newSlots]);
+
+        const newNewEvents = [...newEvents];
+        newNewEvents[idx] = newEvent;
+        setNewEvents(newNewEvents);
     }
 
     function handleMouseDownAvailability(e: React.MouseEvent<HTMLDivElement>) {
@@ -286,18 +329,18 @@ export default function TimeSlotsSelector({ dayIdx, events, x }: TimeSlotsSelect
     }
 
     function getMouseMoveSlotHandler() {
-        console.log(resizing.side)
+        // console.log(resizing.side)
         if (resizing.side == "top") {
             return function(e: React.MouseEvent<HTMLDivElement>) {
-                console.log(resizing.yStart, e.clientY)
+                // console.log(resizing.yStart, e.clientY)
                 if(resizing.yStart && e.clientY > resizing.yStart) {
-                    console.log('resizing down')
+                    // console.log('resizing down')
                 }
             }
         }
         else {
             return function(e: React.MouseEvent<HTMLDivElement>) {
-                console.log('test2')
+                // console.log('test2')
             }
         }
     }
@@ -318,7 +361,7 @@ export default function TimeSlotsSelector({ dayIdx, events, x }: TimeSlotsSelect
                         ref={getSlotElRef(idx)}
                         onMouseDown={getHandleStartSelection(slot, idx, slots)}
                         onMouseEnter={getHandleSelectSlot(slot, idx, slots)}
-                        onMouseMove={getMouseMoveSlotHandler()}
+                        // onMouseMove={getMouseMoveSlotHandler()}
                     />
                 ))}
             </Slots>
@@ -326,8 +369,9 @@ export default function TimeSlotsSelector({ dayIdx, events, x }: TimeSlotsSelect
                 <Availability
                     top={getTop(event, idx)}
                     height={getHeight(event)}
-                    onMouseMove={handleMouseOverAvailability}
-                    onMouseDown={handleMouseDownAvailability}
+                    onMouseMove={e=>handleMouseOverAvailability(e, event, idx)}
+                    onMouseUp={()=>shrinkType.current=0}
+                    // onMouseDown={handleMouseDownAvailability}
                 />
             ))}
         </Container>

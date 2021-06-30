@@ -12,14 +12,13 @@ const Cell = styled.div`
 
 type SchedulerCellProps = {
     day: CalendarDay;
-    idx: number;
 };
 
-function SchedulerCell({ day, idx }: SchedulerCellProps) {
+function SchedulerCell({ day }: SchedulerCellProps) {
     const dispatch = useDispatch();
 
     function selectDay() {
-        dispatch(toggleDayAction(idx))
+        dispatch(toggleDayAction(day))
     }
 
     function handleClick() {

@@ -1,4 +1,4 @@
-import { CalendarEvent, MonthId } from "../../common/dateTime.types";
+import { CalendarDay, CalendarEvent, MonthId } from "../../common/dateTime.types";
 
 export type SetDayEventsPayload = {
     dayIdx: number,
@@ -19,7 +19,7 @@ export type ReverseMonthAction = {
 
 export type ToggleDayAction = {
     type: 'TOGGLE_DAY';
-    payload: number;
+    payload: CalendarDay;
 }
 
 export type SetDayEventsAction = {

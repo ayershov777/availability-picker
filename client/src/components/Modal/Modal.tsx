@@ -26,14 +26,27 @@ function Modal({ children, backdropColor, backgroundColor, closeModalCallback }:
         closeModalCallback();
     }
 
+    function hideScroll() {
+        if (document.body.scrollHeight > window.innerHeight) {
+            document.body.style.marginRight = `${SCROLLBAR_WIDTH}px`;
+        }
+
+        document.body.style.overflow = "hidden";
+
+    }
+
+    function restoreScroll() {
+        document.body.style.overflow = "auto";
+        document.body.style.marginRight = "0";
+    }
+
     useEffect(() => {
         window.addEventListener("keydown", onKeyDown);
-        document.body.style.overflow = "hidden";
-        document.body.style.marginRight = `${SCROLLBAR_WIDTH}px`;
+        hideScroll();
+
         return () => {
             window.removeEventListener("keydown", onKeyDown);
-            document.body.style.overflow = "auto";
-            document.body.style.marginRight = "0";
+            restoreScroll();
         };
     });
     

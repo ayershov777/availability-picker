@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 export enum ScreenSize { XSmall, Small, Medium, Large, XLarge, XXLarge };
+export enum Breakpoints { XSmall=0, Small=576, Medium=768, Large=992, XLarge=1200, XXLarge=1400 };
 
 const queries = [
 	"(max-width: 575px)",

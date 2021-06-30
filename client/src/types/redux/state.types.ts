@@ -1,11 +1,14 @@
 import { MonthIndex, CalendarDay } from "../common/dateTime.types";
 
+export type SchedulerReducer = {
+    monthIndex: MonthIndex;
+    year: number;
+    days: CalendarDay[];
+    selectedDay?: CalendarDay;
+};
+
 type RootState = {
-    schedulerReducer: {
-        monthIndex: MonthIndex;
-        year: number;
-        days: CalendarDay[]
-    }
+    schedulerReducer: SchedulerReducer;
 };
 
 export default RootState;

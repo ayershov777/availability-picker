@@ -1,9 +1,19 @@
 import { combineReducers } from "redux";
 
 import SchedulerActions, { SetDayEventsPayload } from "../types/redux/actions/schedulerActions.types";
-import { MonthId, MonthIndex } from "../types/common/dateTime.types";
-import { getDays } from "../utils/dateTime";
-import { initialState } from "./state";
+import { CalendarDay, MonthId, MonthIndex } from "../types/common/dateTime.types";
+import { getCurrentMonth, getCurrentYear, getDays, getInitialDays } from "../utils/dateTime";
+import { SchedulerReducer } from "../types/redux/state.types";
+
+const d = getInitialDays();
+d[0].events.push({ startTime: new Date("May 30, 2021 02:00:00"), endTime: new Date("May 30, 2021 03:00:00") });
+
+export const initialState: SchedulerReducer = {
+    year: getCurrentYear(),
+    monthIndex: getCurrentMonth(),
+    days: d,
+    selectedDay: undefined,
+};
 
 export function schedulerReducer(state = initialState, { type, payload }: SchedulerActions) {
     switch(type) {
@@ -32,13 +42,10 @@ export function schedulerReducer(state = initialState, { type, payload }: Schedu
             };
         }
         case "TOGGLE_DAY": {
-            const day = state.days[payload as number];
-            day.selected = !day.selected;
+            const day = payload as CalendarDay;
+            const selectedDay = state.selectedDay === day ? undefined : day;
 
-            return {
-                ...state,
-                days: [...state.days],
-            };
+            return { ...state, selectedDay };
         }
         case "SET_DAY_EVENTS": {
             const { dayIdx, events } = payload as SetDayEventsPayload;

@@ -5,8 +5,8 @@ import { WEEKDAYS } from "../../utils/dateTime";
 
 import SchedulerCell from "./SchedulerCell";
 import MonthPicker from "./MonthPicker";
-import RootState from "../../types/redux/state.types";
 import TimeSelectorModal from "../TimeSelector/TimeSelectorModal";
+import { getDates } from "../../redux/selectors";
 
 const Container = styled.div`
     padding: 0px calc(100vw/7);
@@ -24,8 +24,7 @@ const WeekdayLabel = styled.div`
 `;
 
 function Scheduler() {
-    const days = useSelector(({ schedulerReducer }: RootState) => schedulerReducer.days);
-    const selectedDay = useSelector(({ schedulerReducer }: RootState) => schedulerReducer.selectedDay)
+    const dates = useSelector(getDates);
 
     return (
         <Container>
@@ -37,15 +36,15 @@ function Scheduler() {
                         {weekday}
                     </WeekdayLabel>
                 ))}
-                {days.map((day, idx) => (
+                {dates.map((date, idx) => (
                     <SchedulerCell
                         key={`scheduler-item-${idx}`}
-                        day={day}
+                        date={date}
                     />
                 ))}
             </Grid>
 
-            {selectedDay && <TimeSelectorModal day={selectedDay} />}
+            <TimeSelectorModal />
         </Container>
     );
 }

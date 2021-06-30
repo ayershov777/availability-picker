@@ -1,12 +1,6 @@
-export type CalendarEvent = {
+export type CalendarAvailability = {
     startTime: Date;
     endTime: Date;
-};
-
-export type CalendarDay = {
-    date: Date;
-    events: CalendarEvent[];
-    selected: boolean;
 };
 
 export type WeekdayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -21,5 +15,5 @@ export type MonthId = {
 export type TimeSlot = {
     timeDisplay: string;
     dateTime: Date;
-    event?: CalendarEvent;
+    event?: CalendarAvailability;
 };

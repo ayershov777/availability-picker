@@ -1,5 +1,6 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { CalendarDay } from "../../types/common/dateTime.types";
+import { getSelectedDate } from "../../redux/selectors";
 import { SCROLLBAR_WIDTH } from "../../utils/common";
 
 import SelectedTimeSlots from "./SelectedTimeSlots";
@@ -15,15 +16,17 @@ const Container = styled.div`
     overflow-y: scroll;
 `;
 
-type TimeSelectorProps = {
-    day: CalendarDay;
-};
+function TimeSelector() {
+    const selectedDate = useSelector(getSelectedDate);
 
-function TimeSelector({ day }: TimeSelectorProps) {
+    if (selectedDate === undefined) {
+        return <></>;
+    }
+
     return (
         <Container>
-            <TimeSlotsSelector day={day} />
-            <SelectedTimeSlots day={day} />
+            <TimeSlotsSelector selectedDate={selectedDate}/>
+            <SelectedTimeSlots selectedDate={selectedDate}/>
         </Container>
     );
 }

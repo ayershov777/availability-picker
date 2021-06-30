@@ -1,16 +1,14 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
-import { CalendarDay, CalendarEvent } from "../../types/common/dateTime.types";
+import { getSelectedAvailabilities } from "../../redux/selectors";
+import { CalendarAvailability } from "../../types/common/dateTime.types";
 import { getInitialTimes, MILLIS_PER_FIFTEEN_MINUTES, MINUTES_PER_DAY } from "../../utils/dateTime";
 
 const slotHeight = 18; // pixels
 const slotInterval = 15; // minutes
 const numSlots = MINUTES_PER_DAY / slotInterval;
 const containerHeight = numSlots * slotInterval;
-
-type TimeSlotsSelectorProps = {
-  day: CalendarDay;
-};
 
 const Container = styled.div`
     max-height: ${containerHeight}px;
@@ -46,9 +44,14 @@ const Availability = styled.div<CSSProperties>`
     margin-right: -2px;
 `;
 
-export default function TimeSlotsSelector({ day }: TimeSlotsSelectorProps) {
-    const [slots, setSlots] = useState(getInitialTimes(day.date));
-    
+type TimeSlotsSelectorProps = {
+    selectedDate: Date;
+};
+
+export default function TimeSlotsSelector({ selectedDate }: TimeSlotsSelectorProps) {
+    const [slots, setSlots] = useState(getInitialTimes(selectedDate));
+    const availabilities = useSelector(getSelectedAvailabilities);
+
     // useEffect(() => {
     //     window.addEventListener("mouseMove", onMouseMove);
     //     window.addEventListener("touchMove", onMouseUp);
@@ -78,14 +81,14 @@ export default function TimeSlotsSelector({ day }: TimeSlotsSelectorProps) {
         return delta/MILLIS_PER_FIFTEEN_MINUTES;
     }
 
-    function getTop(event: CalendarEvent) {
-        const start = getTimeIndex(event.startTime);
+    function getTop(availability: CalendarAvailability) {
+        const start = getTimeIndex(availability.startTime);
         return start * slotHeight;
     }
     
-    function getHeight(event: CalendarEvent) {
-        const start = getTimeIndex(event.startTime);
-        const end = getTimeIndex(event.endTime);
+    function getHeight(availability: CalendarAvailability) {
+        const start = getTimeIndex(availability.startTime);
+        const end = getTimeIndex(availability.endTime);
         const length = end - start;
     
         return length * slotHeight;
@@ -104,12 +107,17 @@ export default function TimeSlotsSelector({ day }: TimeSlotsSelectorProps) {
                 <Slots>
                     {slots.map((slot, idx) => (
                         <Slot
+                            key={`slot-${idx}`}
                             data-idx={idx}
                         />
                     ))}
                 </Slots>
-                {day.events.map((event) => (
-                    <Availability top={getTop(event)} height={getHeight(event)} />
+                {availabilities.map((availability, idx) => (
+                    <Availability
+                        key={`availability-${idx}`}
+                        top={getTop(availability)}
+                        height={getHeight(availability)}
+                    />
                 ))}
             </div>
         </Container>

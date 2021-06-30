@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
 import { advanceMonthAction, reverseMonthAction } from "../../redux/actions";
-import RootState from "../../types/redux/state.types";
+import { getMonthIndex, getYear } from "../../redux/selectors";
 import { MONTHS } from "../../utils/dateTime";
 
 const Container = styled.div`
@@ -24,8 +24,8 @@ const Button = styled.button`
 `;
 
 function MonthPicker() {
-    const monthIndex = useSelector(({ schedulerReducer }: RootState) => schedulerReducer.monthIndex);
-    const year = useSelector(({ schedulerReducer }: RootState) => schedulerReducer.year);
+    const monthIndex = useSelector(getMonthIndex);
+    const year = useSelector(getYear);
 
     const dispatch = useDispatch();
 

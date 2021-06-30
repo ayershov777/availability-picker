@@ -1,4 +1,4 @@
-import { CalendarDay, CalendarEvent, MonthIndex, TimeSlot, WeekdayIndex } from "../types/common/dateTime.types";
+import { MonthIndex, TimeSlot, WeekdayIndex } from "../types/common/dateTime.types";
 
 export const MILLIS_PER_FIFTEEN_MINUTES = 9e+5;
 const MILLIS_PER_DAY = 8.64e+7;
@@ -18,26 +18,22 @@ export const HOURS = [
 
 export const MINUTES_PER_DAY = 1440;
 
-export function getInitialDays() : CalendarDay[] {
+export function getInitialDates() : Date[] {
     const today = new Date();
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth() as MonthIndex;
-    return getDays(currentMonth, currentYear);
+    return getMonthlyDates(currentMonth, currentYear);
 }
 
-export function getDays(monthIndex: MonthIndex, year: number) : CalendarDay[] {
+export function getMonthlyDates( monthIndex: MonthIndex, year: number) : Date[] {
     const firstSunday: Date = getFirstVisibleSunday(monthIndex, year);
     const firstSundayEpochMillis = firstSunday.getTime();
 
-    const days: CalendarDay[] = new Array(DAYS_TO_DISPLAY)
-        .fill(undefined)
-        .map((_day, idx) => ({
-            date: addDays(firstSundayEpochMillis, idx),
-            events: [] as CalendarEvent[],
-            selected: false,
-        }));
-
-    return days as CalendarDay[];
+    return (
+        new Array<undefined>(DAYS_TO_DISPLAY)
+            .fill(undefined)
+            .map((_day, idx) => addDays(firstSundayEpochMillis, idx))
+    );
 }
 
 export function getCurrentMonth() {
@@ -88,7 +84,7 @@ function getStandardDisplayTime(hours: number, minutes: number) {
     return `${displayHours}:${displayMinutes} ${period}`;
 }
 
-// function isTimeSelected(events: CalendarEvent[], dateTime: Date) {
+// function isTimeSelected(events: CalendarAvailability[], dateTime: Date) {
 //     return events.reduce((isAlreadySelected, event) => {
 //         const dateTimeEpochMillis = dateTime.getTime();
 //         const startEpochMillis = event.startTime.getTime();

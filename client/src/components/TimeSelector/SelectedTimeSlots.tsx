@@ -1,10 +1,8 @@
-import { CalendarDay } from "../../types/common/dateTime.types";
-
 type SelectedTimeSlotsProps = {
-    day: CalendarDay;
+    selectedDate: Date;
 };
 
-export default function SelectedTimeSlots({ day }: SelectedTimeSlotsProps) {
+export default function SelectedTimeSlots({ selectedDate }: SelectedTimeSlotsProps) {
     return (
         <div>
             

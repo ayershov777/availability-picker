@@ -1,7 +1,7 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { toggleDayAction } from "../../redux/actions";
-import { CalendarDay } from "../../types/common/dateTime.types";
+import { setSelectedDateAction } from "../../redux/actions";
+import { getSelectedDate } from "../../redux/selectors";
 import Modal from "../Modal/Modal";
 import ModalExit from "../Modal/ModalExit";
 import TimeSelector from "./TimeSelector";
@@ -31,26 +31,27 @@ const Footer = styled.div`
     border-top: 1px solid darkgray;
 `;
 
-type TimeSelectorModalProps = {
-    day: CalendarDay;
-};
-
-export default function TimeSelectorModal({ day }: TimeSelectorModalProps) {
+export default function TimeSelectorModal() {
+    const selectedDate = useSelector(getSelectedDate)
     const dispatch = useDispatch();
 
-    function deselectDay() {
-        dispatch(toggleDayAction(day))
+    if (selectedDate === undefined) {
+        return <></>;
+    }
+
+    function deselectDate() {
+        dispatch(setSelectedDateAction(undefined))
     }
 
     function closeModalCallback() {
-        deselectDay();
+        deselectDate();
     }
 
     return (
         <Modal closeModalCallback={closeModalCallback}>
-            <Heading>{day.date.toDateString().substring(4, 10)}</Heading>
+            <Heading>{selectedDate.toDateString().substring(4, 10)}</Heading>
             <Body>
-                <TimeSelector day={day}/>
+                <TimeSelector />
             </Body>
             <Footer>
                 <ModalExit closeModalCallback={closeModalCallback} text="Cancel" />

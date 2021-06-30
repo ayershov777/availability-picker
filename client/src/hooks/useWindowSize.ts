@@ -6,22 +6,23 @@ export type Size = {
 };
 
 export default function useWindowSize() {
-    const [windowSize, setWindowSize] = useState({
-        width: window.innerWidth,
-        height: window.innerHeight
-    } as Size);
-
-    useEffect(() => {
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    })
-
-    function handleResize() {
-        setWindowSize({
+    const [windowSize, setWindowSize] = (
+        useState<Size>({
             width: window.innerWidth,
             height: window.innerHeight,
-        })    
-    }
+        })
+    );
+
+    useEffect(() => {
+        const handler = () => (
+            setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight,
+            })
+        );
+        window.addEventListener("resize", handler);
+        return () => window.removeEventListener("resize", handler);
+    });
 
     return windowSize;
 }

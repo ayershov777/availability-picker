@@ -1,38 +1,63 @@
-import styled, { keyframes } from "styled-components";
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
-
-const Backdrop = styled.div`
-    position: absolute;
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.75);
-    animation: 0.25s ${fadeIn} ease-out;
-`;
+import React, { useEffect } from "react";
+import CSS from 'csstype';
+import useScrollTop from "../../hooks/useScrollTop";
+import { SCROLLBAR_WIDTH } from "../../utils/common";
+import { default as Layout } from "./ModalLayout";
+import { default as Backdrop } from "./ModalBackdrop";
+import { default as ContentContainer } from "./ModalContentContainer";
 
 type ModalProps = {
     children: string | JSX.Element | JSX.Element[];
+    backdropColor?: CSS.Property.BackgroundColor;
+    backgroundColor?: CSS.Property.BackgroundColor;
+    closeModalCallback: () => void;
 };
 
-function Modal({ children }: ModalProps) {
-    document.body.style.overflow = "hidden";
+function Modal({ children, backdropColor, backgroundColor, closeModalCallback }: ModalProps) {
+    const scrollTop = useScrollTop();
+
+    function onKeyDown (e: KeyboardEvent) {
+        if(e.code === "Escape") {
+            closeModalCallback();
+        }
+    }
+
+    function onClickBackdrop(e: React.MouseEvent) {
+        closeModalCallback();
+    }
+
+    function hideScroll() {
+        if (document.body.scrollHeight > window.innerHeight) {
+            document.body.style.marginRight = `${SCROLLBAR_WIDTH}px`;
+        }
+
+        document.body.style.overflow = "hidden";
+
+    }
+
+    function restoreScroll() {
+        document.body.style.overflow = "auto";
+        document.body.style.marginRight = "0";
+    }
+
+    useEffect(() => {
+        window.addEventListener("keydown", onKeyDown);
+        hideScroll();
+
+        return () => {
+            window.removeEventListener("keydown", onKeyDown);
+            restoreScroll();
+        };
+    });
+    
     return (
-        <Backdrop>
-            {children}
-        </Backdrop>
-    )
+        <Layout top={`${scrollTop}px`}>
+            <Backdrop onClick={onClickBackdrop} backgroundColor={backdropColor} />
+            <ContentContainer backgroundColor={backgroundColor}>
+                {children}
+            </ContentContainer>
+        </Layout>
+    );
 }
 
 export default Modal;

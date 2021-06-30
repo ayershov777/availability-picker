@@ -1,16 +1,17 @@
+import React from "react";
+
 type ModalExitProps = {
     text: string;
-    handleClick?: (...args: any[]) => void;
+    closeModalCallback: () => void;
 }
 
-function ModalExit({ text, handleClick: callback }: ModalExitProps) {
-    function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
-        document.body.style.overflow = "auto";
-        callback && callback();
+function ModalExit({ text, closeModalCallback }: ModalExitProps) {
+    function onClick (e: React.MouseEvent) {
+        closeModalCallback();
     }
 
     return (
-        <button onClick={handleClick}>{text}</button>
+        <button onClick={onClick}>{text}</button>
     );
 }
 

@@ -1,4 +1,3 @@
-import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { toggleDayAction } from "../../redux/actions";
@@ -7,15 +6,11 @@ import Modal from "../Modal/Modal";
 import ModalExit from "../Modal/ModalExit";
 import TimeSelector from "./TimeSelector";
 
-const Container = styled.div`
-    background-color: white;
-`;
-
 const Heading = styled.div`
     font-size: 18pt;
     text-align: center;
-    margin: 6px 12px 0 12px;
-    padding-bottom: 6px;
+    margin: 0 12px;
+    padding: 6px 0;
     border-bottom: 1px solid darkgray;
 `;
 
@@ -31,44 +26,35 @@ const Body = styled.div`
 const Footer = styled.div`
     display: flex;
     justify-content: center;
-    margin: 0 12px 8px 12px;
-    padding-top: 8px;
+    margin: 0 12px;
+    padding: 8px 0;
     border-top: 1px solid darkgray;
 `;
 
 type TimeSelectorModalProps = {
     day: CalendarDay;
-    dayIdx: number
 };
 
-export default function TimeSelectorModal({ day, dayIdx }: TimeSelectorModalProps) {
-    const containerRef = useRef<HTMLDivElement>(null);
-
+export default function TimeSelectorModal({ day }: TimeSelectorModalProps) {
     const dispatch = useDispatch();
 
     function deselectDay() {
-        dispatch(toggleDayAction(dayIdx))
+        dispatch(toggleDayAction(day))
     }
 
-    function handleCancel() {
+    function closeModalCallback() {
         deselectDay();
     }
 
     return (
-        <Modal>
-            <Container ref={containerRef}>
-                <Heading>{day.date.toDateString().substring(4, 10)}</Heading>
-                <Body>
-                    <TimeSelector
-                        dayIdx={dayIdx}
-                        events={day.events}
-                        x={containerRef.current?.clientHeight}
-                    />
-                </Body>
-                <Footer>
-                    <ModalExit handleClick={handleCancel} text="Cancel" />
-                </Footer>
-            </Container>
+        <Modal closeModalCallback={closeModalCallback}>
+            <Heading>{day.date.toDateString().substring(4, 10)}</Heading>
+            <Body>
+                <TimeSelector day={day}/>
+            </Body>
+            <Footer>
+                <ModalExit closeModalCallback={closeModalCallback} text="Cancel" />
+            </Footer>
         </Modal>
-    )
+    );
 }

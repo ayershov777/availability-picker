@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { advanceMonthAction, reverseMonthAction } from '../../redux/actions';
+import { advanceMonthAction, reverseMonthAction } from "../../redux/actions";
 import RootState from "../../types/redux/state.types";
 import { MONTHS } from "../../utils/dateTime";
 

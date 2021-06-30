@@ -1,0 +1,1 @@
+export const SCROLLBAR_WIDTH = 17; // pixels (Increase/Decrease this value for cross-browser compatibility)

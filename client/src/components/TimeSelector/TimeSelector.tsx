@@ -1,6 +1,6 @@
-import React, { useState } from "react";
 import styled from "styled-components";
-import { CalendarEvent } from "../../types/common/dateTime.types";
+import { CalendarDay } from "../../types/common/dateTime.types";
+import { SCROLLBAR_WIDTH } from "../../utils/common";
 
 import SelectedTimeSlots from "./SelectedTimeSlots";
 import TimeSlotsSelector from "./TimeSlotsSelector";
@@ -10,22 +10,20 @@ const Container = styled.div`
     top: 0;
     bottom: 0;
     left: 0;
-    right: -17px; /* Increase/Decrease this value for cross-browser compatibility */
+    right: -${SCROLLBAR_WIDTH}px;
     height: 80vh;
     overflow-y: scroll;
 `;
 
 type TimeSelectorProps = {
-    dayIdx: number;
-    events: CalendarEvent[],
-    x?: number;
+    day: CalendarDay;
 };
 
-function TimeSelector({ dayIdx, events, x }: TimeSelectorProps) {
+function TimeSelector({ day }: TimeSelectorProps) {
     return (
         <Container>
-            <TimeSlotsSelector dayIdx={dayIdx} events={events} x={x} />
-            <SelectedTimeSlots dayIdx={dayIdx} events={events} />
+            <TimeSlotsSelector day={day} />
+            <SelectedTimeSlots day={day} />
         </Container>
     );
 }

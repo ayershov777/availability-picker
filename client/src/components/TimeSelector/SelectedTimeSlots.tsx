@@ -1,12 +1,10 @@
-import React from 'react';
-import { CalendarEvent } from '../../types/common/dateTime.types';
+import { CalendarDay } from "../../types/common/dateTime.types";
 
 type SelectedTimeSlotsProps = {
-    dayIdx: number;
-    events: CalendarEvent[];
+    day: CalendarDay;
 };
 
-export default function SelectedTimeSlots({ dayIdx, events }: SelectedTimeSlotsProps) {
+export default function SelectedTimeSlots({ day }: SelectedTimeSlotsProps) {
     return (
         <div>
             

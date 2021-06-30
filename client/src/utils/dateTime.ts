@@ -16,6 +16,8 @@ export const HOURS = [
     "12", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11"
 ];
 
+export const MINUTES_PER_DAY = 1440;
+
 export function getInitialDays() : CalendarDay[] {
     const today = new Date();
     const currentYear = today.getFullYear();
@@ -59,7 +61,7 @@ function getFirstVisibleSunday(monthIndex: MonthIndex, year: number) {
     return new Date(epochMillis - delta);
 }
 
-export function getInitialTimes(date: Date, events: CalendarEvent[]): TimeSlot[] {
+export function getInitialTimes(date: Date): TimeSlot[] {
     return Array(96)
         .fill(undefined)
         .map((_slot, idx) => {
@@ -67,7 +69,6 @@ export function getInitialTimes(date: Date, events: CalendarEvent[]): TimeSlot[]
             const minutes = 15*(idx % 4);
 
             const dateTime = getDateTime(date, hours, minutes);
-            // const selected = isTimeSelected(events, dateTime);
             const timeDisplay = getStandardDisplayTime(hours, minutes);
             return { timeDisplay, dateTime };
         });
@@ -83,7 +84,7 @@ function getDateTime(date: Date, hours: number, minutes: number) {
 function getStandardDisplayTime(hours: number, minutes: number) {
     const displayHours = HOURS[hours];
     const displayMinutes = minutes === 0 ? "00" : minutes.toString();
-    const period = hours < 12 ? 'AM' : 'PM';
+    const period = hours < 12 ? "AM" : "PM";
     return `${displayHours}:${displayMinutes} ${period}`;
 }
 

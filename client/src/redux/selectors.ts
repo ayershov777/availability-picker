@@ -22,10 +22,12 @@ export function getSelectedDate({ schedulerReducer }: RootState) {
 
 export function getSelectedAvailabilities({ schedulerReducer }: RootState) {
     const selectedDate = schedulerReducer.selectedDate;
-    if(selectedDate === undefined) {
+    const selectedDateId = selectedDate?.toISOString();
+
+    const selectedAvailabilities = selectedDateId && schedulerReducer.availabilities[selectedDateId];
+    if(selectedAvailabilities === undefined) {
         return [];
     }
-    
-    const selectedDateId = selectedDate.toISOString();
-    return schedulerReducer.availabilities[selectedDateId];
+
+    return schedulerReducer.availabilities[selectedDateId!];
 }

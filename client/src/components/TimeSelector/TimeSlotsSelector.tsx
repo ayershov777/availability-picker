@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
-import { getSelectedAvailabilities, getSelectedDate } from "../../redux/selectors";
+import { getSelectedAvailabilities } from "../../redux/selectors";
 import { CalendarEvent } from "../../types/common/dateTime.types";
 import { getInitialTimes, MILLIS_PER_FIFTEEN_MINUTES, MINUTES_PER_DAY } from "../../utils/dateTime";
 
@@ -44,8 +44,11 @@ const Availability = styled.div<CSSProperties>`
     margin-right: -2px;
 `;
 
-export default function TimeSlotsSelector() {
-    const selectedDate = useSelector(getSelectedDate)!;
+type TimeSlotsSelectorProps = {
+    selectedDate: Date;
+};
+
+export default function TimeSlotsSelector({ selectedDate }: TimeSlotsSelectorProps) {
     const [slots, setSlots] = useState(getInitialTimes(selectedDate));
     const availabilities = useSelector(getSelectedAvailabilities);
 
@@ -108,7 +111,7 @@ export default function TimeSlotsSelector() {
                         />
                     ))}
                 </Slots>
-                {availabilities && availabilities.map((event) => (
+                {availabilities.map((event) => (
                     <Availability top={getTop(event)} height={getHeight(event)} />
                 ))}
             </div>

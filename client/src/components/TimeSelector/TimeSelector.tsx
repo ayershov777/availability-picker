@@ -1,4 +1,6 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { getSelectedDate } from "../../redux/selectors";
 import { SCROLLBAR_WIDTH } from "../../utils/common";
 
 import SelectedTimeSlots from "./SelectedTimeSlots";
@@ -15,10 +17,16 @@ const Container = styled.div`
 `;
 
 function TimeSelector() {
+    const selectedDate = useSelector(getSelectedDate);
+
+    if (selectedDate === undefined) {
+        return <></>;
+    }
+
     return (
         <Container>
-            <TimeSlotsSelector />
-            <SelectedTimeSlots />
+            <TimeSlotsSelector selectedDate={selectedDate}/>
+            <SelectedTimeSlots selectedDate={selectedDate}/>
         </Container>
     );
 }

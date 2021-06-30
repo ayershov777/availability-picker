@@ -1,9 +1,8 @@
-import { useSelector } from "react-redux";
-import { getSelectedDate } from "../../redux/selectors";
+type SelectedTimeSlotsProps = {
+    selectedDate: Date;
+};
 
-export default function SelectedTimeSlots() {
-    const selectedDate = useSelector(getSelectedDate)!
-
+export default function SelectedTimeSlots({ selectedDate }: SelectedTimeSlotsProps) {
     return (
         <div>
             

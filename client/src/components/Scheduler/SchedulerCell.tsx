@@ -1,7 +1,6 @@
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { toggleDayAction } from "../../redux/actions";
-import { CalendarDay } from "../../types/common/dateTime.types";
+import { setSelectedDateAction } from "../../redux/actions";
 
 const Cell = styled.div`
     border: 1px solid black;
@@ -11,14 +10,14 @@ const Cell = styled.div`
 `;
 
 type SchedulerCellProps = {
-    day: CalendarDay;
+    date: Date;
 };
 
-function SchedulerCell({ day }: SchedulerCellProps) {
+function SchedulerCell({ date }: SchedulerCellProps) {
     const dispatch = useDispatch();
 
     function selectDay() {
-        dispatch(toggleDayAction(day))
+        dispatch(setSelectedDateAction(date))
     }
 
     function handleClick() {
@@ -27,7 +26,7 @@ function SchedulerCell({ day }: SchedulerCellProps) {
 
     return (
         <Cell onClick={handleClick}>
-            {day.date.toDateString().substring(4, 10)}
+            {date.toDateString().substring(4, 10)}
         </Cell>
     );
 }

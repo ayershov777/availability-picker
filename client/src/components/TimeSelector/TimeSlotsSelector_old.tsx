@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { CalendarDay, CalendarEvent, TimeSlot } from '../../types/common/dateTime.types';
+import { CalendarEvent, TimeSlot } from '../../types/common/dateTime.types';
 import { getInitialTimes, MILLIS_PER_FIFTEEN_MINUTES } from '../../utils/dateTime';
 
 type AvailabilityProps = {
@@ -9,7 +9,7 @@ type AvailabilityProps = {
 };
 
 type TimeSlotsSelectorProps = {
-    day: CalendarDay;
+    date: Date;
 };
 
 type ContainerProps = {
@@ -56,8 +56,8 @@ type Resizing = {
     yStart?: number;
 }
 
-export default function TimeSlotsSelector({ day }: TimeSlotsSelectorProps) {
-    const [slots, setSlots] = useState(getInitialTimes(day.date));
+export default function TimeSlotsSelector({ date }: TimeSlotsSelectorProps) {
+    const [slots, setSlots] = useState(getInitialTimes(date));
     const [newEvents, setNewEvents] = useState([] as CalendarEvent[]);
     const [resizing, setResizing] = useState({ } as Resizing);
 

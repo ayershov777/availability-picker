@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { CalendarDay } from "../../types/common/dateTime.types";
 import { SCROLLBAR_WIDTH } from "../../utils/common";
 
 import SelectedTimeSlots from "./SelectedTimeSlots";
@@ -15,15 +14,11 @@ const Container = styled.div`
     overflow-y: scroll;
 `;
 
-type TimeSelectorProps = {
-    day: CalendarDay;
-};
-
-function TimeSelector({ day }: TimeSelectorProps) {
+function TimeSelector() {
     return (
         <Container>
-            <TimeSlotsSelector day={day} />
-            <SelectedTimeSlots day={day} />
+            <TimeSlotsSelector />
+            <SelectedTimeSlots />
         </Container>
     );
 }

@@ -1,11 +1,5 @@
-import { CalendarDay, MonthId } from "../types/common/dateTime.types";
-import {
-    AdvanceMonthAction,
-    ReverseMonthAction,
-    SetDayEventsAction,
-    SetDayEventsPayload,
-    ToggleDayAction
-} from "../types/redux/actions/schedulerActions.types";
+import { MonthId } from "../types/common/dateTime.types";
+import { AdvanceMonthAction, ReverseMonthAction, SetSelectedDateAction } from "../types/redux/actions/schedulerActions.types";
 
 export function advanceMonthAction (monthId: MonthId): AdvanceMonthAction {
     return {
@@ -21,16 +15,9 @@ export function reverseMonthAction (monthId: MonthId): ReverseMonthAction {
     };
 }
 
-export function toggleDayAction (day: CalendarDay): ToggleDayAction {
+export function setSelectedDateAction (date: Date | undefined): SetSelectedDateAction {
     return {
-        type: "TOGGLE_DAY",
-        payload: day,
-    };
-}
-
-export function setDayEventsAction (payload: SetDayEventsPayload): SetDayEventsAction {
-    return {
-        type: "SET_DAY_EVENTS",
-        payload: payload,
+        type: "SET_SELECTED_DATE",
+        payload: date,
     };
 }

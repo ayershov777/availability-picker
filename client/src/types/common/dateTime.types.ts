@@ -3,12 +3,6 @@ export type CalendarEvent = {
     endTime: Date;
 };
 
-export type CalendarDay = {
-    date: Date;
-    events: CalendarEvent[];
-    selected: boolean;
-};
-
 export type WeekdayIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6;
 
 export type MonthIndex = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;

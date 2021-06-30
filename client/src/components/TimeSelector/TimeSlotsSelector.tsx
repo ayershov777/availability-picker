@@ -1,16 +1,14 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
-import { CalendarDay, CalendarEvent } from "../../types/common/dateTime.types";
+import { getSelectedAvailabilities, getSelectedDate } from "../../redux/selectors";
+import { CalendarEvent } from "../../types/common/dateTime.types";
 import { getInitialTimes, MILLIS_PER_FIFTEEN_MINUTES, MINUTES_PER_DAY } from "../../utils/dateTime";
 
 const slotHeight = 18; // pixels
 const slotInterval = 15; // minutes
 const numSlots = MINUTES_PER_DAY / slotInterval;
 const containerHeight = numSlots * slotInterval;
-
-type TimeSlotsSelectorProps = {
-  day: CalendarDay;
-};
 
 const Container = styled.div`
     max-height: ${containerHeight}px;
@@ -46,9 +44,11 @@ const Availability = styled.div<CSSProperties>`
     margin-right: -2px;
 `;
 
-export default function TimeSlotsSelector({ day }: TimeSlotsSelectorProps) {
-    const [slots, setSlots] = useState(getInitialTimes(day.date));
-    
+export default function TimeSlotsSelector() {
+    const selectedDate = useSelector(getSelectedDate)!;
+    const [slots, setSlots] = useState(getInitialTimes(selectedDate));
+    const availabilities = useSelector(getSelectedAvailabilities);
+
     // useEffect(() => {
     //     window.addEventListener("mouseMove", onMouseMove);
     //     window.addEventListener("touchMove", onMouseUp);
@@ -108,7 +108,7 @@ export default function TimeSlotsSelector({ day }: TimeSlotsSelectorProps) {
                         />
                     ))}
                 </Slots>
-                {day.events.map((event) => (
+                {availabilities && availabilities.map((event) => (
                     <Availability top={getTop(event)} height={getHeight(event)} />
                 ))}
             </div>

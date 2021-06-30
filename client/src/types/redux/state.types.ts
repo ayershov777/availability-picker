@@ -1,10 +1,11 @@
-import { MonthIndex, CalendarDay } from "../common/dateTime.types";
+import { CalendarEvent, MonthIndex } from "../common/dateTime.types";
 
 export type SchedulerReducer = {
     monthIndex: MonthIndex;
     year: number;
-    days: CalendarDay[];
-    selectedDay?: CalendarDay;
+    dates: Date[];
+    selectedDate?: Date;
+    availabilities: Record<string, CalendarEvent[]>;
 };
 
 type RootState = {

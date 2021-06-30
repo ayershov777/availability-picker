@@ -1,11 +1,9 @@
-import { CalendarDay, CalendarEvent, MonthId } from "../../common/dateTime.types";
+import { CalendarEvent, MonthId } from "../../common/dateTime.types";
 
 export type SetDayEventsPayload = {
     dayIdx: number,
     events: CalendarEvent[],
 };
-
-type NumberArray = MonthId[];
 
 export type AdvanceMonthAction = {
     type: "ADVANCE_MONTH";
@@ -17,16 +15,11 @@ export type ReverseMonthAction = {
     payload: MonthId;
 };
 
-export type ToggleDayAction = {
-    type: "TOGGLE_DAY";
-    payload: CalendarDay;
+export type SetSelectedDateAction = {
+    type: "SET_SELECTED_DATE";
+    payload: Date | undefined;
 }
 
-export type SetDayEventsAction = {
-    type: "SET_DAY_EVENTS";
-    payload: SetDayEventsPayload;
-};
-
-type SchedulerActions = AdvanceMonthAction | ReverseMonthAction | ToggleDayAction | SetDayEventsAction;
+type SchedulerActions = AdvanceMonthAction | ReverseMonthAction | SetSelectedDateAction;
 
 export default SchedulerActions;

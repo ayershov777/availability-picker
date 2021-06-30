@@ -1,10 +1,9 @@
-import { CalendarDay } from "../../types/common/dateTime.types";
+import { useSelector } from "react-redux";
+import { getSelectedDate } from "../../redux/selectors";
 
-type SelectedTimeSlotsProps = {
-    day: CalendarDay;
-};
+export default function SelectedTimeSlots() {
+    const selectedDate = useSelector(getSelectedDate)!
 
-export default function SelectedTimeSlots({ day }: SelectedTimeSlotsProps) {
     return (
         <div>
             

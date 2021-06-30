@@ -84,7 +84,7 @@ function getDateTime(date: Date, hours: number, minutes: number) {
 function getStandardDisplayTime(hours: number, minutes: number) {
     const displayHours = HOURS[hours];
     const displayMinutes = minutes === 0 ? "00" : minutes.toString();
-    const period = hours < 12 ? 'AM' : 'PM';
+    const period = hours < 12 ? "AM" : "PM";
     return `${displayHours}:${displayMinutes} ${period}`;
 }
 

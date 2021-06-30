@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import CSS from 'csstype';
+import CSS from "csstype";
 import useScrollTop from "../../hooks/useScrollTop";
 import { SCROLLBAR_WIDTH } from "../../utils/common";
-
 import { default as Layout } from "./ModalLayout";
 import { default as Backdrop } from "./ModalBackdrop";
 import { default as ContentContainer } from "./ModalContentContainer";
@@ -35,7 +34,7 @@ function Modal({ children, backdropColor, backgroundColor, closeModalCallback }:
             window.removeEventListener("keydown", onKeyDown);
             document.body.style.overflow = "auto";
             document.body.style.marginRight = "0";
-        }
+        };
     });
     
     return (

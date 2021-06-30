@@ -1,12 +1,12 @@
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 import { WEEKDAYS } from "../../utils/dateTime";
 
 import SchedulerCell from "./SchedulerCell";
 import MonthPicker from "./MonthPicker";
 import RootState from "../../types/redux/state.types";
-import TimeSelectorModal from '../TimeSelector/TimeSelectorModal';
+import TimeSelectorModal from "../TimeSelector/TimeSelectorModal";
 
 const Container = styled.div`
     padding: 0px calc(100vw/7);

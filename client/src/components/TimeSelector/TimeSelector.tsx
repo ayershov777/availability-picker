@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { CalendarDay, CalendarEvent } from "../../types/common/dateTime.types";
+import { CalendarDay } from "../../types/common/dateTime.types";
 import { SCROLLBAR_WIDTH } from "../../utils/common";
 
 import SelectedTimeSlots from "./SelectedTimeSlots";
@@ -17,14 +17,13 @@ const Container = styled.div`
 
 type TimeSelectorProps = {
     day: CalendarDay;
-    events: CalendarEvent[],
 };
 
-function TimeSelector({ day, events }: TimeSelectorProps) {
+function TimeSelector({ day }: TimeSelectorProps) {
     return (
         <Container>
-            <TimeSlotsSelector day={day} events={events} />
-            <SelectedTimeSlots day={day} events={events} />
+            <TimeSlotsSelector day={day} />
+            <SelectedTimeSlots day={day} />
         </Container>
     );
 }

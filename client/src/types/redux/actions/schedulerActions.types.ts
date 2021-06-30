@@ -8,17 +8,17 @@ export type SetDayEventsPayload = {
 type NumberArray = MonthId[];
 
 export type AdvanceMonthAction = {
-    type: 'ADVANCE_MONTH';
+    type: "ADVANCE_MONTH";
     payload: MonthId;
 };
 
 export type ReverseMonthAction = {
-    type: 'REVERSE_MONTH';
+    type: "REVERSE_MONTH";
     payload: MonthId;
 };
 
 export type ToggleDayAction = {
-    type: 'TOGGLE_DAY';
+    type: "TOGGLE_DAY";
     payload: CalendarDay;
 }
 

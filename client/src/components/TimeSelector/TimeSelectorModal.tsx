@@ -48,18 +48,13 @@ export default function TimeSelectorModal({ day }: TimeSelectorModalProps) {
 
     return (
         <Modal closeModalCallback={closeModalCallback}>
-            <>
-                <Heading>{day.date.toDateString().substring(4, 10)}</Heading>
-                <Body>
-                    <TimeSelector
-                        day={day}
-                        events={day.events}
-                    />
-                </Body>
-                <Footer>
-                    <ModalExit closeModalCallback={closeModalCallback} text="Cancel" />
-                </Footer>
-            </>
+            <Heading>{day.date.toDateString().substring(4, 10)}</Heading>
+            <Body>
+                <TimeSelector day={day}/>
+            </Body>
+            <Footer>
+                <ModalExit closeModalCallback={closeModalCallback} text="Cancel" />
+            </Footer>
         </Modal>
     );
 }

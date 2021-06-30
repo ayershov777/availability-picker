@@ -10,7 +10,6 @@ const containerHeight = numSlots * slotInterval;
 
 type TimeSlotsSelectorProps = {
   day: CalendarDay;
-  events: CalendarEvent[];
 };
 
 const Container = styled.div`
@@ -94,9 +93,9 @@ export default function TimeSlotsSelector({ day }: TimeSlotsSelectorProps) {
 
     return (
         <Container>
-            <div style={{ borderLeft: '1px solid darkgray' }}>
+            <div style={{ borderLeft: "1px solid darkgray" }}>
                 {slots.map((slot, idx) => (
-                    <div key={`slot-${idx}`} style={{ height: '18px', textAlign: 'center' }}>
+                    <div key={`slot-${idx}`} style={{ height: "18px", textAlign: "center" }}>
                         {idx%4 ? undefined : slot.timeDisplay}
                     </div>
                 ))}

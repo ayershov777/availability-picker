@@ -4,12 +4,12 @@ export enum ScreenSize { XSmall, Small, Medium, Large, XLarge, XXLarge };
 export enum Breakpoints { XSmall=0, Small=576, Medium=768, Large=992, XLarge=1200, XXLarge=1400 };
 
 const queries = [
-	"(max-width: 575px)",
-	"(min-width: 576px) and (max-width: 767px)",
-	"(min-width: 768px) and (max-width: 991px)",
-	"(min-width: 992px) and (max-width: 1199px)",
-	"(min-width: 1200px) and (max-width: 1399px)",
-	"(min-width: 1400px)",
+	`(max-width: ${Breakpoints.Small-1}px)`,
+	`(min-width: ${Breakpoints.Small}px) and (max-width: ${Breakpoints.Medium-1}px)`,
+	`(min-width: ${Breakpoints.Medium}px) and (max-width: ${Breakpoints.Large-1}px)`,
+	`(min-width: ${Breakpoints.Large}px) and (max-width: ${Breakpoints.XLarge-1}px)`,
+	`(min-width: ${Breakpoints.XLarge}px) and (max-width: ${Breakpoints.XXLarge-1}px)`,
+	`(min-width: ${Breakpoints.XXLarge}px)`,
 ];
 
 const mediaQueryLists = queries.map((q) => window.matchMedia(q));

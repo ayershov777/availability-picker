@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { CalendarEvent, TimeSlot } from '../../types/common/dateTime.types';
+import { CalendarAvailability, TimeSlot } from '../../types/common/dateTime.types';
 import { getInitialTimes, MILLIS_PER_FIFTEEN_MINUTES } from '../../utils/dateTime';
 
 type AvailabilityProps = {
@@ -58,11 +58,11 @@ type Resizing = {
 
 export default function TimeSlotsSelector({ date }: TimeSlotsSelectorProps) {
     const [slots, setSlots] = useState(getInitialTimes(date));
-    const [newEvents, setNewEvents] = useState([] as CalendarEvent[]);
+    const [newEvents, setNewEvents] = useState([] as CalendarAvailability[]);
     const [resizing, setResizing] = useState({ } as Resizing);
 
     const slotElRef = useRef<HTMLDivElement>(null);
-    const lastEventRef = useRef<CalendarEvent | null>(null);
+    const lastEventRef = useRef<CalendarAvailability | null>(null);
 
     function getHandleStartSelection(slot: TimeSlot, idx: number, slots: TimeSlot[]) {
         return getHandleSelectSlot(slot, idx, slots, true)
@@ -89,7 +89,7 @@ export default function TimeSlotsSelector({ date }: TimeSlotsSelectorProps) {
                     return;
                 }
 
-                const newEvent: CalendarEvent = {
+                const newEvent: CalendarAvailability = {
                     startTime: aboveEvent.startTime,
                     endTime: belowEvent.endTime,
                 };
@@ -119,7 +119,7 @@ export default function TimeSlotsSelector({ date }: TimeSlotsSelectorProps) {
                     return;
                 }
 
-                const adjacentEvent = (aboveEvent || belowEvent) as CalendarEvent;
+                const adjacentEvent = (aboveEvent || belowEvent) as CalendarAvailability;
                 slot.event = adjacentEvent;
                 lastEventRef.current = adjacentEvent;
 
@@ -146,7 +146,7 @@ export default function TimeSlotsSelector({ date }: TimeSlotsSelectorProps) {
                     return;
                 }
                 
-                const event: CalendarEvent = {
+                const event: CalendarAvailability = {
                     startTime: slot.dateTime,
                     endTime: new Date(slot.dateTime.getTime() + MILLIS_PER_FIFTEEN_MINUTES),
                 };
@@ -165,7 +165,7 @@ export default function TimeSlotsSelector({ date }: TimeSlotsSelectorProps) {
                 return;
             }
 
-            const lastEvent = (lastEventRef.current as CalendarEvent);
+            const lastEvent = (lastEventRef.current as CalendarAvailability);
             const lastEventEnd = lastEvent.endTime.getTime();
             const slotTime = slot.dateTime.getTime();
 
@@ -185,7 +185,7 @@ export default function TimeSlotsSelector({ date }: TimeSlotsSelectorProps) {
         
     }
 
-    function updateEventSlots(slots: TimeSlot[], event: CalendarEvent, newEvent: CalendarEvent) {
+    function updateEventSlots(slots: TimeSlot[], event: CalendarAvailability, newEvent: CalendarAvailability) {
         const start = getTimeIndex(event.startTime);
         const end = getTimeIndex(event.endTime);
 
@@ -211,14 +211,14 @@ export default function TimeSlotsSelector({ date }: TimeSlotsSelectorProps) {
         return delta/MILLIS_PER_FIFTEEN_MINUTES;
     }
 
-    function getTop(event: CalendarEvent, availabilityIdx: number) {
+    function getTop(event: CalendarAvailability, availabilityIdx: number) {
         const slotHeight = slotElRef.current!.clientHeight;
         const start = getTimeIndex(event.startTime);
 
         return start * slotHeight;
     }
 
-    function getHeight(event: CalendarEvent) {
+    function getHeight(event: CalendarAvailability) {
         const slotHeight = slotElRef.current!.clientHeight;
         const start = getTimeIndex(event.startTime);
         const end = getTimeIndex(event.endTime);

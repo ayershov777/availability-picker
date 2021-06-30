@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
 import { getSelectedAvailabilities } from "../../redux/selectors";
-import { CalendarEvent } from "../../types/common/dateTime.types";
+import { CalendarAvailability } from "../../types/common/dateTime.types";
 import { getInitialTimes, MILLIS_PER_FIFTEEN_MINUTES, MINUTES_PER_DAY } from "../../utils/dateTime";
 
 const slotHeight = 18; // pixels
@@ -81,14 +81,14 @@ export default function TimeSlotsSelector({ selectedDate }: TimeSlotsSelectorPro
         return delta/MILLIS_PER_FIFTEEN_MINUTES;
     }
 
-    function getTop(event: CalendarEvent) {
-        const start = getTimeIndex(event.startTime);
+    function getTop(availability: CalendarAvailability) {
+        const start = getTimeIndex(availability.startTime);
         return start * slotHeight;
     }
     
-    function getHeight(event: CalendarEvent) {
-        const start = getTimeIndex(event.startTime);
-        const end = getTimeIndex(event.endTime);
+    function getHeight(availability: CalendarAvailability) {
+        const start = getTimeIndex(availability.startTime);
+        const end = getTimeIndex(availability.endTime);
         const length = end - start;
     
         return length * slotHeight;
@@ -107,12 +107,17 @@ export default function TimeSlotsSelector({ selectedDate }: TimeSlotsSelectorPro
                 <Slots>
                     {slots.map((slot, idx) => (
                         <Slot
+                            key={`slot-${idx}`}
                             data-idx={idx}
                         />
                     ))}
                 </Slots>
-                {availabilities.map((event) => (
-                    <Availability top={getTop(event)} height={getHeight(event)} />
+                {availabilities.map((availability, idx) => (
+                    <Availability
+                        key={`availability-${idx}`}
+                        top={getTop(availability)}
+                        height={getHeight(availability)}
+                    />
                 ))}
             </div>
         </Container>

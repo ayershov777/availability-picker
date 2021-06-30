@@ -1,8 +1,8 @@
-import { CalendarEvent, MonthId } from "../../common/dateTime.types";
+import { CalendarAvailability, MonthId } from "../../common/dateTime.types";
 
 export type SetDayEventsPayload = {
     dayIdx: number,
-    events: CalendarEvent[],
+    events: CalendarAvailability[],
 };
 
 export type AdvanceMonthAction = {

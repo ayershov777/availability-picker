@@ -1,4 +1,4 @@
-export type CalendarEvent = {
+export type CalendarAvailability = {
     startTime: Date;
     endTime: Date;
 };
@@ -15,5 +15,5 @@ export type MonthId = {
 export type TimeSlot = {
     timeDisplay: string;
     dateTime: Date;
-    event?: CalendarEvent;
+    event?: CalendarAvailability;
 };

@@ -84,7 +84,7 @@ function getStandardDisplayTime(hours: number, minutes: number) {
     return `${displayHours}:${displayMinutes} ${period}`;
 }
 
-// function isTimeSelected(events: CalendarEvent[], dateTime: Date) {
+// function isTimeSelected(events: CalendarAvailability[], dateTime: Date) {
 //     return events.reduce((isAlreadySelected, event) => {
 //         const dateTimeEpochMillis = dateTime.getTime();
 //         const startEpochMillis = event.startTime.getTime();

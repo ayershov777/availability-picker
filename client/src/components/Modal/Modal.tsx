@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import CSS from "csstype";
+import CSS from 'csstype';
 import useScrollTop from "../../hooks/useScrollTop";
 import { SCROLLBAR_WIDTH } from "../../utils/common";
 import { default as Layout } from "./ModalLayout";
@@ -40,7 +40,9 @@ function Modal({ children, backdropColor, backgroundColor, closeModalCallback }:
     return (
         <Layout top={`${scrollTop}px`}>
             <Backdrop onClick={onClickBackdrop} backgroundColor={backdropColor} />
-            <ContentContainer backgroundColor={backgroundColor}>{children}</ContentContainer>
+            <ContentContainer backgroundColor={backgroundColor}>
+                {children}
+            </ContentContainer>
         </Layout>
     );
 }

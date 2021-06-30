@@ -31,6 +31,15 @@ const Slots = styled.div`
     border-left: 1px solid darkgray;
 `;
 
+const TimeDisplay = styled.div`
+    height: ${slotHeight}px;
+    text-align: center; 
+`;
+
+const TimeDisplayContainer = styled.div`
+    border-left: 1px solid darkgray;
+`;
+
 const Availability = styled.div<CSSProperties>`
     position: absolute;
     top: ${({ top }) => top}px;
@@ -96,13 +105,14 @@ export default function TimeSlotsSelector({ selectedDate }: TimeSlotsSelectorPro
 
     return (
         <Container>
-            <div style={{ borderLeft: "1px solid darkgray" }}>
+            <TimeDisplayContainer>
                 {slots.map((slot, idx) => (
-                    <div key={`slot-${idx}`} style={{ height: "18px", textAlign: "center" }}>
+                    <TimeDisplay key={`slot-${idx}`}>
                         {idx%4 ? undefined : slot.timeDisplay}
-                    </div>
+                    </TimeDisplay>
                 ))}
-            </div>
+            </TimeDisplayContainer>
+            
             <div onMouseDown={onMouseDown} onTouchStart={onTouchStart}>
                 <Slots>
                     {slots.map((slot, idx) => (

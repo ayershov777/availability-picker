@@ -10,9 +10,11 @@ const Cell = styled.div`
     height: calc(100vw/10);
  
     @media (max-width: ${Breakpoints.Small}px) {
+        margin: 3px;
+        height: calc(100vw/15);
         border: none;
-        width: calc(100vw/10);
-        line-height: calc(100vw/10);
+        width: calc(100vw/15);
+        line-height: calc(100vw/15);
         border-radius: 50%;
         text-align: center;
         
@@ -39,7 +41,7 @@ function SchedulerCell({ date }: SchedulerCellProps) {
     }
     return (
         <Cell onClick={handleClick}>
-            {useScreenSize() > ScreenSize.Small ? date.toDateString().substring(4, 10) : date.getDate()}
+            {useScreenSize() >= ScreenSize.Small ? date.toDateString().substring(4, 10) : date.getDate()}
         </Cell>
     );
 }

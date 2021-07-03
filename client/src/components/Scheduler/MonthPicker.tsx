@@ -50,11 +50,11 @@ function MonthPicker() {
     return (
         <Container>
             <Button onClick={handleClickPrevious}>
-                &lt; previous month
+                &lt; {MONTHS[monthIndex - 1]}
             </Button>
             <h1>{month} {year}</h1>
             <Button onClick={handleClickNext}>
-                &gt; next month
+                &gt; {MONTHS[monthIndex + 1]}
             </Button>
         </Container>
     );

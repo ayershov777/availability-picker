@@ -47,14 +47,30 @@ function MonthPicker() {
 
     const month = MONTHS[monthIndex];
 
+    function getNextMonth() {
+        if(monthIndex === 11) {
+            return MONTHS[0];
+        }
+        
+        return MONTHS[monthIndex + 1]
+    }
+
+    function getPreviousMonth() {
+        if(monthIndex === 0) {
+            return MONTHS[11];
+        }
+
+        return MONTHS[monthIndex - 1]
+    }
+
     return (
         <Container>
             <Button onClick={handleClickPrevious}>
-                &lt; previous month
+                &lt; {getPreviousMonth()}
             </Button>
             <h1>{month} {year}</h1>
             <Button onClick={handleClickNext}>
-                &gt; next month
+                {getNextMonth()} &gt;
             </Button>
         </Container>
     );

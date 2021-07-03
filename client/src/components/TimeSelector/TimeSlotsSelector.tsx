@@ -13,9 +13,7 @@ const containerHeight = numSlots * slotInterval;
 const Container = styled.div`
     max-height: ${containerHeight}px;
     height: ${containerHeight}px;
-    margin: 0 4px;
-    display: grid;
-    grid-template-columns: 96px auto;
+    margin-top: 16px;
 `;
 
 const Slot = styled.div`
@@ -27,17 +25,6 @@ const Slots = styled.div`
     ${Slot}:nth-child(4n-2) {
         background-color: lightblue;
     }
-    border-right: 1px solid darkgray;
-    border-left: 1px solid darkgray;
-`;
-
-const TimeDisplay = styled.div`
-    height: ${slotHeight}px;
-    text-align: center; 
-`;
-
-const TimeDisplayContainer = styled.div`
-    border-left: 1px solid darkgray;
 `;
 
 const Availability = styled.div<CSSProperties>`
@@ -105,21 +92,12 @@ export default function TimeSlotsSelector({ selectedDate }: TimeSlotsSelectorPro
 
     return (
         <Container>
-            <TimeDisplayContainer>
-                {slots.map((slot, idx) => (
-                    <TimeDisplay key={`slot-${idx}`}>
-                        {idx%4 ? undefined : slot.timeDisplay}
-                    </TimeDisplay>
-                ))}
-            </TimeDisplayContainer>
-            
             <div onMouseDown={onMouseDown} onTouchStart={onTouchStart}>
                 <Slots>
                     {slots.map((slot, idx) => (
-                        <Slot
-                            key={`slot-${idx}`}
-                            data-idx={idx}
-                        />
+                        <Slot key={`slot-${idx}`} data-idx={idx}>
+                            {idx%4 ? undefined : slot.timeDisplay}
+                        </Slot>
                     ))}
                 </Slots>
                 {availabilities.map((availability, idx) => (

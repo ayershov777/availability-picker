@@ -5,11 +5,17 @@ import { WEEKDAYS } from "../../utils/dateTime";
 
 import SchedulerCell from "./SchedulerCell";
 import MonthPicker from "./MonthPicker";
-import TimeSelectorModal from "../TimeSelector/TimeSelectorModal";
-import { getDates } from "../../redux/selectors";
+import TimeSelector from "../TimeSelector/TimeSelector";
+import { getDates, getSelectedDate } from "../../redux/selectors";
+import useViewport, { Viewport } from "../../hooks/useViewport";
 
-const Container = styled.div`
+const MobileContainer = styled.div`
     padding: 0px calc(100vw/7);
+`;
+
+const DesktopContainer = styled.div`
+    display: grid;
+    grid-template-columns: 1fr 4fr;
 `;
 
 const Grid = styled.div`
@@ -26,26 +32,30 @@ const WeekdayLabel = styled.div`
 
 function Scheduler() {
     const dates = useSelector(getDates);
+    const viewport = useViewport();
+
+    const Container = viewport >= Viewport.SM ? DesktopContainer : MobileContainer;
 
     return (
         <Container>
-            <MonthPicker />
-            
-            <Grid>
-                {WEEKDAYS.map((weekday, idx) => (
-                    <WeekdayLabel key={`weekday-label-${idx}`}>
-                        {weekday}
-                    </WeekdayLabel>
-                ))}
-                {dates.map((date, idx) => (
-                    <SchedulerCell
-                        key={`scheduler-item-${idx}`}
-                        date={date}
-                    />
-                ))}
-            </Grid>
+            <div>
+                <MonthPicker />
+                <Grid>
+                    {WEEKDAYS.map((weekday, idx) => (
+                        <WeekdayLabel key={`weekday-label-${idx}`}>
+                            {weekday}
+                        </WeekdayLabel>
+                    ))}
+                    {dates.map((date, idx) => (
+                        <SchedulerCell
+                            key={`scheduler-item-${idx}`}
+                            date={date}
+                        />
+                    ))}
+                </Grid>
+            </div>
 
-            <TimeSelectorModal />
+            <TimeSelector />
         </Container>
     );
 }

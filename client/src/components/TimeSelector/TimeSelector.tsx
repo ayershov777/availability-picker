@@ -7,13 +7,11 @@ import SelectedTimeSlots from "./SelectedTimeSlots";
 import TimeSlotsSelector from "./TimeSlotsSelector";
 
 const Container = styled.div`
-    position: absolute;
+    position: relative;
     top: 0;
     bottom: 0;
     left: 0;
     right: -${SCROLLBAR_WIDTH}px;
-    height: 80vh;
-    overflow-y: scroll;
 `;
 
 function TimeSelector() {

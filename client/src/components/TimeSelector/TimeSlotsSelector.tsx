@@ -21,6 +21,10 @@ const Slot = styled.div`
 `;
 
 const Slots = styled.div`
+    ${Slot}:nth-child(4n),
+    ${Slot}:nth-child(4n-1) {
+        background-color: white;
+    }
     ${Slot}:nth-child(4n-3),
     ${Slot}:nth-child(4n-2) {
         background-color: lightblue;

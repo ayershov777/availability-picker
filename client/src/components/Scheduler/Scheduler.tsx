@@ -26,6 +26,11 @@ const DatePickerPanelMobile = styled.div`
     margin-left: auto;
     margin-right: auto;
 `;
+const InnerContainer = styled.div`
+    position: sticky;
+    top: 0;
+`;
+
 const slidedown = keyframes`
   from {
     height: 0;
@@ -91,7 +96,7 @@ const Grid = styled.div<{leftOrRight: number}>`
     position: relative;
     grid-template-columns: repeat(7, 1fr);
     row-gap: 16px;
-    animation: ${({leftOrRight})=>leftOrRight>0 ? slideFromRight : leftOrRight<0 ? slideFromLeft : 'none'} 300ms ease-out;
+    animation: ${({leftOrRight})=>leftOrRight>0 ? slideFromRight : leftOrRight<0 ? slideFromLeft : 'none'} 400ms ease-out;
 `;
 
 const WeekdayLabel = styled.div`
@@ -127,8 +132,8 @@ function Scheduler() {
     }, [viewport])
     
     const show = useRef(true);
-    const prevMonthIndex = useRef(-1);
     const monthIndex = useSelector(getMonthIndex);
+    const prevMonthIndex = useRef(monthIndex);
 
     useEffect(() => {
         show.current = !show.current;
@@ -153,13 +158,15 @@ function Scheduler() {
     return (
         <Container viewport={viewport}>
             <DatePickerPanel>
-            <MonthPicker />
-                {show.current && datePickerPanel}
-                {!show.current && datePickerPanel}
-                <div className="sentinel"></div>
+                <InnerContainer>
+                    <MonthPicker />
+                    {show.current && datePickerPanel}
+                    {!show.current && datePickerPanel}
+                    <div className="sentinel"></div>
+                </InnerContainer>
             </DatePickerPanel>
 
-            {showDateBar && 
+            { showDateBar && 
                 <DatePickerBar className="datepicker-bar" onClick={()=>window.scroll({
                     top: 0, behavior: 'smooth'
                   })}>
@@ -168,7 +175,8 @@ function Scheduler() {
                         {" "}
                         <sub className="material-icons">expand_more</sub>
                     </p>
-                </DatePickerBar> }
+                </DatePickerBar> 
+            }
 
             <TimeSelector />
         </Container>

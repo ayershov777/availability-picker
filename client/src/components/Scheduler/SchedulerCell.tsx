@@ -73,7 +73,7 @@ function getCellStyles(
 	const selectedMonth = selectedDate?.getMonth(),
 		cellMonth = date.getMonth(),
 		cellDate = date.getDate(),
-        circleSize = viewport >= Viewport.SM ? "calc(100vw/30)" : "calc(100vw/18)";
+        circleSize = viewport >= Viewport.SM ? "calc(100vw/30)" : "calc(100vw/15)";
     if (selectedMonth === cellMonth && selectedDate?.getDate() === cellDate)
 		return {
 			backgroundColor: "#FFFFFF",

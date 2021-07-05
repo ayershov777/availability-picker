@@ -10,15 +10,10 @@ import { getDates, getMonthIndex, getSelectedDate } from "../../redux/selectors"
 import useViewport, { Viewport } from "../../hooks/useViewport";
 import { useEffect, useRef, useState } from 'react';
 
-// const MobileContainer = styled.div`
-//     padding: 0px calc(100vw/7);
-// `;
-
-// const DesktopContainer = styled.div`
-//     // display: grid;
-//     // grid-template-columns: auto 1fr;
-// `;
-
+const Container = styled.div<{viewport: Viewport}>`
+    display: flex;
+    flex-flow: ${({viewport})=>viewport <= Viewport.SM ? 'wrap' : 'nowrap'}
+`;
 const DatePickerPanelDesktop = styled.div`
     position: sticky;
     top: 0px;
@@ -28,7 +23,8 @@ const DatePickerPanelDesktop = styled.div`
 `;
 const DatePickerPanelMobile = styled.div`
     display: block;
-    padding: 0px calc(100vw/7);
+    margin-left: auto;
+    margin-right: auto;
 `;
 const slidedown = keyframes`
   from {
@@ -41,8 +37,9 @@ const slidedown = keyframes`
 `;
 const DatePickerBar = styled.div`
     display: block;
-    // padding: 0px calc(100vw/7);
     position: fixed;
+    margin-left: auto;
+    margin-right: auto;
     top: 0px;
     height: 3.5rem;
     width: 100%;
@@ -154,7 +151,7 @@ function Scheduler() {
         </>
 
     return (
-        <div>
+        <Container viewport={viewport}>
             <DatePickerPanel>
             <MonthPicker />
                 {show.current && datePickerPanel}
@@ -174,7 +171,7 @@ function Scheduler() {
                 </DatePickerBar> }
 
             <TimeSelector />
-        </div>
+        </Container>
     );
 }
 

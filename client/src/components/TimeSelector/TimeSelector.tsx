@@ -18,14 +18,14 @@ const slidedown = keyframes`
   `;
 const Container = styled.div<{viewport: Viewport}>`
     position: relative;
-    margin: 2rem 0 0 0;
+    flex: 1;
+    min-width: 276px;
+    margin: 1rem 0 0 0;
     right: -${SCROLLBAR_WIDTH}px;
     color: steelblue;
     text-align: center;
     font-family: monospace;
     font-size: 1.1rem;
-    display: inline-block;
-    width: ${ ({viewport}) => viewport > Viewport.SM ? 'calc(100vw - ((100vw / 30 + 10px) * 7 ) )': viewport === Viewport.SM ? '50vw' : '100%'} };;
     vertical-align: top;
     min-height: 300px;
     animation: ${slidedown} 0.4s ease-out;

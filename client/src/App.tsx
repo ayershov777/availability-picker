@@ -6,7 +6,7 @@ import Scheduler from "./components/Scheduler/Scheduler";
 function App() {
     return (
         <Provider store={store}>
-            <Scheduler />;
+            <Scheduler />
         </Provider>
     )
 }

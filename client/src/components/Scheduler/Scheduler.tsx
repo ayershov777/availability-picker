@@ -1,59 +1,126 @@
 import { useSelector } from "react-redux";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-import { WEEKDAYS } from "../../utils/dateTime";
-
-import SchedulerCell from "./SchedulerCell";
+import SchedulerGrid, { GridAnimationVariant } from "./SchedulerGrid";
 import MonthPicker from "./MonthPicker";
 import TimeSelector from "../TimeSelector/TimeSelector";
-import { getDates, getSelectedDate } from "../../redux/selectors";
+import { getSelectedDate } from "../../redux/selectors";
 import useViewport, { Viewport } from "../../hooks/useViewport";
+import { useEffect, useState } from 'react';
 
-const MobileContainer = styled.div`
-    padding: 0px calc(100vw/7);
+const Container = styled.div<{viewport: Viewport}>`
+    display: flex;
+    flex-flow: ${({viewport})=>viewport <= Viewport.SM ? 'wrap' : 'nowrap'};
 `;
 
-const DesktopContainer = styled.div`
-    display: grid;
-    grid-template-columns: 1fr 4fr;
+const DatePickerPanelDesktop = styled.div`
+    position: sticky;
+    top: 0px;
+    display: inline-block;
+    vertical-align: top;
 `;
 
-const Grid = styled.div`
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    row-gap: 16px;
+const DatePickerPanelMobile = styled.div`
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 `;
 
-const WeekdayLabel = styled.div`
+const InnerContainer = styled.div`
+    position: sticky;
+    top: 0;
+`;
+
+const slideDown = keyframes`
+    from {
+        height: 0;
+    }
+
+    to {
+        height: 3.5rem;
+    }
+`;
+
+const DatePickerBar = styled.div`
+    display: block;
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    top: 0px;
+    height: 3.5rem;
+    width: 100%;
+    border-bottom: 1px solid rgba(105, 105, 105, 0.5);
+    margin-bottom: 1rem;
+    z-index: 10;
+    background-color: white;
+    box-shadow: 1px 5px 5px grey;
     text-align: center;
-    font-size: 14pt;
-    font-weight: bold;
+    color: #1a73e8;
+    font-weight: 600;
+    font-size: 1.1rem;
+    font-family: monospace;
+    transition: filter 250ms;
+    animation: ${slideDown} 0.3s ease-out;
+
+    &:hover {
+        filter: brightness(0.7);
+    }
+    & sub {
+        cursor: pointer;
+    }
 `;
 
 function Scheduler() {
-    const dates = useSelector(getDates);
+    const selectedDate = useSelector(getSelectedDate);
     const viewport = useViewport();
+    const DatePickerPanel = viewport >= Viewport.SM ? DatePickerPanelDesktop : DatePickerPanelMobile;
+    const [showDateBar, setShowDateBar] = useState(false);
+    const [gridAnimation, setGridAnimation] = useState<GridAnimationVariant>("idle");
 
-    const Container = viewport >= Viewport.SM ? DesktopContainer : MobileContainer;
+    useEffect(() => {
+        const el = document.querySelector(".sentinel");
+
+        const observer = new IntersectionObserver(([e]) => {
+            if (viewport>Viewport.SM) {
+                setShowDateBar(false);
+                return;
+            }
+            e.intersectionRatio < 0.001 ? setShowDateBar(true) : setShowDateBar(false);
+        });
+
+        if(el) {
+            observer.observe(el);
+        }
+        
+        return () => {
+            if(el) {
+                observer.unobserve(el);
+            }
+        };
+
+    }, [viewport]);
 
     return (
-        <Container>
-            <div>
-                <MonthPicker />
-                <Grid>
-                    {WEEKDAYS.map((weekday, idx) => (
-                        <WeekdayLabel key={`weekday-label-${idx}`}>
-                            {weekday}
-                        </WeekdayLabel>
-                    ))}
-                    {dates.map((date, idx) => (
-                        <SchedulerCell
-                            key={`scheduler-item-${idx}`}
-                            date={date}
-                        />
-                    ))}
-                </Grid>
-            </div>
+        <Container viewport={viewport}>
+            <DatePickerPanel>
+                <InnerContainer>
+                    <MonthPicker setGridAnimation={setGridAnimation} />
+                    <SchedulerGrid gridAnimation={gridAnimation} setGridAnimation={setGridAnimation} />
+                    <div className="sentinel"></div>
+                </InnerContainer>
+            </DatePickerPanel>
+
+            {showDateBar && 
+                <DatePickerBar onClick={()=>window.scroll({
+                    top: 0, behavior: 'smooth'
+                  })}>
+                    <p>
+                        {selectedDate?.toDateString()}
+                        {" "}
+                        <sub className="material-icons">expand_more</sub>
+                    </p>
+                </DatePickerBar> 
+            }
 
             <TimeSelector />
         </Container>

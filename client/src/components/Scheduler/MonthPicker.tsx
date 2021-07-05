@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { advanceMonthAction, reverseMonthAction } from "../../redux/actions";
 import { getMonthIndex, getYear } from "../../redux/selectors";
 import { MONTHS } from "../../utils/dateTime";
+import { GridAnimationVariant } from "./SchedulerGrid";
 
 const Container = styled.div`
     display: flex;
@@ -23,9 +24,14 @@ const Button = styled.button`
     };
 `;
 
-function MonthPicker() {
+type MonthPickerProps = {
+    setGridAnimation: React.Dispatch<React.SetStateAction<GridAnimationVariant>>;
+}
+
+function MonthPicker({ setGridAnimation }: MonthPickerProps) {
     const monthIndex = useSelector(getMonthIndex);
     const year = useSelector(getYear);
+    const month = MONTHS[monthIndex];
 
     const dispatch = useDispatch();
 
@@ -37,40 +43,24 @@ function MonthPicker() {
         dispatch(reverseMonthAction({ monthIndex, year }));
     }
 
-    function handleClickNext(e: React.MouseEvent<HTMLButtonElement>) {
+    function handleClickNext() {
+        setGridAnimation("right");
         advanceMonth();
     }
 
-    function handleClickPrevious(e: React.MouseEvent<HTMLButtonElement>) {
+    function handleClickPrevious() {
+        setGridAnimation("left");
         reverseMonth();
-    }
-
-    const month = MONTHS[monthIndex];
-
-    function getNextMonth() {
-        if(monthIndex === 11) {
-            return MONTHS[0];
-        }
-        
-        return MONTHS[monthIndex + 1]
-    }
-
-    function getPreviousMonth() {
-        if(monthIndex === 0) {
-            return MONTHS[11];
-        }
-
-        return MONTHS[monthIndex - 1]
     }
 
     return (
         <Container>
             <Button onClick={handleClickPrevious}>
-                &lt; {getPreviousMonth()}
+                &lt;
             </Button>
             <h1>{month} {year}</h1>
             <Button onClick={handleClickNext}>
-                {getNextMonth()} &gt;
+                &gt;
             </Button>
         </Container>
     );

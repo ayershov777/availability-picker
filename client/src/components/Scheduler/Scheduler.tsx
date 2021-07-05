@@ -6,9 +6,9 @@ import { WEEKDAYS } from "../../utils/dateTime";
 import SchedulerCell from "./SchedulerCell";
 import MonthPicker from "./MonthPicker";
 import TimeSelector from "../TimeSelector/TimeSelector";
-import { getDates, getSelectedDate } from "../../redux/selectors";
+import { getDates, getMonthIndex, getSelectedDate } from "../../redux/selectors";
 import useViewport, { Viewport } from "../../hooks/useViewport";
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // const MobileContainer = styled.div`
 //     padding: 0px calc(100vw/7);
@@ -29,8 +29,6 @@ const DatePickerPanelDesktop = styled.div`
 const DatePickerPanelMobile = styled.div`
     display: block;
     padding: 0px calc(100vw/7);
-    // position: fixed;
-    // top: 0px;
 `;
 const slidedown = keyframes`
   from {
@@ -51,24 +49,52 @@ const DatePickerBar = styled.div`
     border-bottom: 1px solid rgba(105, 105, 105, 0.5);
     margin-bottom: 1rem;
     z-index: 10;
-    background-color: #e4e4e4;
-    box-shadow: 10px 5px 5px grey;
+    background-color: white;
+    box-shadow: 1px 5px 5px grey;
     text-align: center;
-    color: #457ba9;
+    color: #1a73e8;
     font-weight: 600;
     font-size: 1.1rem;
     font-family: monospace;
+    transition: filter 250ms;
     animation: ${slidedown} 0.3s ease-out;
 
+    &:hover {
+        filter: brightness(0.7);
+    }
     & sub {
         cursor: pointer;
     }
 `;
 
-const Grid = styled.div`
+const slideFromRight = keyframes`
+  0% {
+    transform: translateX(100%);
+  }
+  50% {
+    transform: translateX(20%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+`;
+const slideFromLeft = keyframes`
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(-20%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+`;
+const Grid = styled.div<{leftOrRight: number}>`
     display: grid;
+    position: relative;
     grid-template-columns: repeat(7, 1fr);
     row-gap: 16px;
+    animation: ${({leftOrRight})=>leftOrRight>0 ? slideFromRight : leftOrRight<0 ? slideFromLeft : 'none'} 300ms ease-out;
 `;
 
 const WeekdayLabel = styled.div`
@@ -85,37 +111,57 @@ function Scheduler() {
     const [showDateBar, setShowDateBar] = useState(false);
 
     useEffect(() => {
-        const el = document.querySelector(".datepicker-dots");
+        const el = document.querySelector(".sentinel");
+
         const observer = new IntersectionObserver( 
             ([e]) => {
                 console.log(e.intersectionRatio);
-                e.intersectionRatio < 0.001 ? setShowDateBar(true) : setShowDateBar(false); }
-        );
+                if (viewport>Viewport.SM) {
+                    setShowDateBar(false);
+                    return;
+                }
+                e.intersectionRatio < 0.001 ? setShowDateBar(true) : setShowDateBar(false);
+            });
 
         el && observer.observe(el);
         return () => {
             el && observer.unobserve(el);
         }
-    }, [])
+    }, [viewport])
+    
+    const show = useRef(true);
+    const prevMonthIndex = useRef(-1);
+    const monthIndex = useSelector(getMonthIndex);
+
+    useEffect(() => {
+        show.current = !show.current;
+        prevMonthIndex.current = monthIndex;
+    })
+    const datePickerPanel = <>
+            <Grid leftOrRight={monthIndex - prevMonthIndex.current}>
+                {WEEKDAYS.map((weekday, idx) => (
+                    <WeekdayLabel key={`weekday-label-${idx}`}>
+                        {weekday}
+                    </WeekdayLabel>
+                ))}
+                {dates.map((date, idx) => (
+                    <SchedulerCell
+                    key={`scheduler-item-${idx}`}
+                    date={date}
+                    />
+                ))}
+            </Grid>
+        </>
 
     return (
         <div>
-            <DatePickerPanel className="datepicker-dots">
-                <MonthPicker />
-                <Grid>
-                    {WEEKDAYS.map((weekday, idx) => (
-                        <WeekdayLabel key={`weekday-label-${idx}`}>
-                            {weekday}
-                        </WeekdayLabel>
-                    ))}
-                    {dates.map((date, idx) => (
-                        <SchedulerCell
-                            key={`scheduler-item-${idx}`}
-                            date={date}
-                        />
-                    ))}
-                </Grid>
+            <DatePickerPanel>
+            <MonthPicker />
+                {show.current && datePickerPanel}
+                {!show.current && datePickerPanel}
+                <div className="sentinel"></div>
             </DatePickerPanel>
+
             {showDateBar && 
                 <DatePickerBar className="datepicker-bar" onClick={()=>window.scroll({
                     top: 0, behavior: 'smooth'

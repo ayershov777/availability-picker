@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { getDates } from "../../../redux/selectors";
@@ -14,14 +15,16 @@ const WeekdayLabel = styled.div`
 
 type DatePickerBodyProps = {
     gridAnimation: GridAnimationVariant;
-    setGridAnimation: React.Dispatch<React.SetStateAction<GridAnimationVariant>>;
+    resolveAnimationEnded: undefined | ((value: void | PromiseLike<void>) => void);
 };
 
-export default function DatePickerBody({ gridAnimation, setGridAnimation }: DatePickerBodyProps) {
+export default function DatePickerBody({ gridAnimation, resolveAnimationEnded }: DatePickerBodyProps) {
     const dates = useSelector(getDates);
 
     function onAnimationEnd() {
-        setGridAnimation("idle");
+        if(resolveAnimationEnded) {
+            resolveAnimationEnded();
+        }
     }
 
     return (

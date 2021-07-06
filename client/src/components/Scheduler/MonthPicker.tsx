@@ -24,10 +24,10 @@ const Button = styled.button`
 `;
 
 type MonthPickerProps = {
-    setGridAnimation: React.Dispatch<React.SetStateAction<GridAnimationVariant>>;
+    animateGrid: (variant: GridAnimationVariant) => Promise<void>;
 };
 
-function MonthPicker({ setGridAnimation }: MonthPickerProps) {
+function MonthPicker({ animateGrid }: MonthPickerProps) {
     const monthIndex = useSelector(getMonthIndex);
     const year = useSelector(getYear);
     const month = MONTHS[monthIndex];
@@ -42,14 +42,16 @@ function MonthPicker({ setGridAnimation }: MonthPickerProps) {
         dispatch(reverseMonthAction({ monthIndex, year }));
     }
 
-    function handleClickNext() {
-        setGridAnimation("right");
+    async function handleClickNext() {
+        await animateGrid("left-out");
         advanceMonth();
+        await animateGrid("left-in");
     }
 
-    function handleClickPrevious() {
-        setGridAnimation("left");
+    async function handleClickPrevious() {
+        await animateGrid("right-out");
         reverseMonth();
+        await animateGrid("right-in");
     }
 
     return (

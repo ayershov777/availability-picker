@@ -1,35 +1,65 @@
 import styled, { keyframes } from "styled-components";
 
-export type GridAnimationVariant = "left" | "right" | "idle";
+export type GridAnimationVariant = "left-in" | "right-in" | "left-out" | "right-out" | "idle";
 
-const slideFromRight = keyframes`
+const slideOutFromRight = keyframes`
     0% {
-        transform: translateX(100%);
-    }
-    50% {
-        transform: translateX(20%);
+        transform: translateX(0%);
+        opacity: 1;
     }
     to {
-        transform: translateX(0%);
+        transform: translateX(-100%);
+        opacity: 0;
     }
 `;
 
-const slideFromLeft = keyframes`
+const slideOutFromLeft = keyframes`
+  0% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+`;
+
+const slideInFromRight = keyframes`
     0% {
-        transform: translateX(-100%);
+        transform: translateX(100%);
+        opacity: 0;
     }
     50% {
-        transform: translateX(-20%);
+        transform: translateX(20%);
+        opacity: 0.5;
     }
     to {
         transform: translateX(0%);
+        opacity: 1;
+    }
+`;
+
+const slideInFromLeft = keyframes`
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(-20%);
+        opacity: 0.5;
+    }
+    to {
+        transform: translateX(0%);
+        opacity: 1;
     }
 `;
 
 function getGridAnimation(variant: GridAnimationVariant) {
     switch(variant) {
-        case "left": return slideFromLeft;
-        case "right": return slideFromRight;
+        case "left-in": return slideInFromLeft;
+        case "right-in": return slideInFromRight;
+        case "left-out": return slideOutFromLeft;
+        case "right-out": return slideOutFromRight;
         case "idle": return "none";
     }
 }
@@ -42,7 +72,7 @@ const DatePickerGrid = styled.div<DatePickerGridProps>`
     display: grid;
     position: relative;
     grid-template-columns: repeat(7, 1fr);
-    animation: ${({animationVariant}) => getGridAnimation(animationVariant)} 400ms ease-out;
+    animation: ${({animationVariant}) => getGridAnimation(animationVariant)} 200ms ease-out;
 `;
 
 export default DatePickerGrid;

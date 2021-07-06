@@ -44,12 +44,12 @@ function MonthPicker({ setGridAnimation }: MonthPickerProps) {
     }
 
     function handleClickNext() {
-        setGridAnimation("right");
+        setGridAnimation("right-phase-one");
         advanceMonth();
     }
 
     function handleClickPrevious() {
-        setGridAnimation("left");
+        setGridAnimation("left-phase-one");
         reverseMonth();
     }
 

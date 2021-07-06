@@ -1,12 +1,10 @@
-import { useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
 
 import SchedulerGrid, { GridAnimationVariant } from "./SchedulerGrid";
 import MonthPicker from "./MonthPicker";
 import TimeSelector from "../TimeSelector/TimeSelector";
-import { getSelectedDate } from "../../redux/selectors";
 import useViewport, { Viewport } from "../../hooks/useViewport";
-import { useState } from 'react';
+import { useState } from "react";
 
 const Container = styled.div<{viewport: Viewport}>`
     display: flex;
@@ -41,35 +39,35 @@ const slideDown = keyframes`
     }
 `;
 
-const DatePickerBar = styled.div`
-    display: block;
-    position: fixed;
-    margin-left: auto;
-    margin-right: auto;
-    top: 0px;
-    height: 3.5rem;
-    width: 100%;
-    border-bottom: 1px solid rgba(105, 105, 105, 0.5);
-    margin-bottom: 1rem;
-    z-index: 10;
-    background-color: white;
-    box-shadow: 1px 5px 5px grey;
-    text-align: center;
-    color: #1a73e8;
-    font-weight: 600;
-    font-size: 1.1rem;
-    font-family: monospace;
-    transition: filter 250ms;
-    animation: ${slideDown} 0.3s ease-out;
+// const DatePickerBar = styled.div`
+//     display: block;
+//     position: fixed;
+//     margin-left: auto;
+//     margin-right: auto;
+//     top: 0px;
+//     height: 3.5rem;
+//     width: 100%;
+//     border-bottom: 1px solid rgba(105, 105, 105, 0.5);
+//     margin-bottom: 1rem;
+//     z-index: 10;
+//     background-color: white;
+//     box-shadow: 1px 5px 5px grey;
+//     text-align: center;
+//     color: #1a73e8;
+//     font-weight: 600;
+//     font-size: 1.1rem;
+//     font-family: monospace;
+//     transition: filter 250ms;
+//     animation: ${slideDown} 0.3s ease-out;
 
-    &:hover {
-        filter: brightness(0.7);
-    }
+//     &:hover {
+//         filter: brightness(0.7);
+//     }
     
-    & sub {
-        cursor: pointer;
-    }
-`;
+//     & sub {
+//         cursor: pointer;
+//     }
+// `;
 
 function Scheduler() {
     const viewport = useViewport();

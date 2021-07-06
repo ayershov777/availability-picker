@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { getDates } from "../../redux/selectors";
-import { WEEKDAYS } from "../../utils/dateTime";
-import SchedulerCell from "./SchedulerCell";
-import { default as Container, GridAnimationVariant } from "./SchedulerGridContainer";
+import { getDates } from "../../../redux/selectors";
+import { WEEKDAYS } from "../../../utils/dateTime";
+import DatePickerCell from "./DatePickerCell";
+import DatePickerGrid, { GridAnimationVariant } from "./DatePickerGrid";
 
 const WeekdayLabel = styled.div`
     text-align: center;
@@ -12,12 +12,12 @@ const WeekdayLabel = styled.div`
     margin: 0 2px;
 `;
 
-type SchedulerGridProps = {
+type DatePickerBodyProps = {
     gridAnimation: GridAnimationVariant;
     setGridAnimation: React.Dispatch<React.SetStateAction<GridAnimationVariant>>;
 };
 
-export default function SchedulerGrid({ gridAnimation, setGridAnimation }: SchedulerGridProps) {
+export default function DatePickerBody({ gridAnimation, setGridAnimation }: DatePickerBodyProps) {
     const dates = useSelector(getDates);
 
     function onAnimationEnd() {
@@ -25,18 +25,18 @@ export default function SchedulerGrid({ gridAnimation, setGridAnimation }: Sched
     }
 
     return (
-        <Container animationVariant={gridAnimation} onAnimationEnd={onAnimationEnd}>
+        <DatePickerGrid animationVariant={gridAnimation} onAnimationEnd={onAnimationEnd}>
             {WEEKDAYS.map((weekday, idx) => (
                 <WeekdayLabel key={`weekday-label-${idx}`}>
                     {weekday}
                 </WeekdayLabel>
             ))}
             {dates.map((date, idx) => (
-                <SchedulerCell
+                <DatePickerCell
                     key={`scheduler-item-${idx}`}
                     date={date}
                 />
             ))}
-        </Container>
+        </DatePickerGrid>
     );
 }

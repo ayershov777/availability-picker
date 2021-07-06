@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import styled, { keyframes } from "styled-components";
-import { getSelectedDate } from "../../redux/selectors";
+import { getSelectedDate } from "../../../redux/selectors";
 
 const slideDown = keyframes`
     from {

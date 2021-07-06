@@ -34,15 +34,15 @@ function getGridAnimation(variant: GridAnimationVariant) {
     }
 }
 
-type SchedulerGridContainerProps = {
+type DatePickerGridProps = {
     animationVariant: GridAnimationVariant;
 };
 
-const SchedulerGridContainer = styled.div<SchedulerGridContainerProps>`
+const DatePickerGrid = styled.div<DatePickerGridProps>`
     display: grid;
     position: relative;
     grid-template-columns: repeat(7, 1fr);
     animation: ${({animationVariant}) => getGridAnimation(animationVariant)} 400ms ease-out;
 `;
 
-export default SchedulerGridContainer;
+export default DatePickerGrid;

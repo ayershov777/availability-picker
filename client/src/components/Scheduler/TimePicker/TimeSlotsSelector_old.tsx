@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { CalendarAvailability, TimeSlot } from '../../types/common/dateTime.types';
-import { getInitialTimes, MILLIS_PER_FIFTEEN_MINUTES } from '../../utils/dateTime';
+import { CalendarAvailability, TimeSlot } from '../../../types/common/dateTime.types';
+import { getInitialTimes, MILLIS_PER_FIFTEEN_MINUTES } from '../../../utils/dateTime';
 
 type AvailabilityProps = {
     top: number;

@@ -4,13 +4,12 @@ import styled from "styled-components";
 import { advanceMonthAction, reverseMonthAction } from "../../redux/actions";
 import { getMonthIndex, getYear } from "../../redux/selectors";
 import { MONTHS } from "../../utils/dateTime";
-import { GridAnimationVariant } from "./SchedulerGridContainer";
+import { GridAnimationVariant } from "./DatePicker/DatePickerGrid";
 
 const Container = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 16px 0;
 `;
 
 const Button = styled.button`

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-import DatePicker from "./DatePicker";
-import TimeSelector from "../TimeSelector/TimeSelector";
+import DatePicker from "./DatePicker/DatePicker";
+import TimePicker from "./TimePicker/TimePicker";
 import useViewport, { Viewport } from "../../hooks/useViewport";
 
 const Container = styled.div<{viewport: Viewport}>`
@@ -15,7 +15,7 @@ function Scheduler() {
     return (
         <Container viewport={viewport}>
             <DatePicker />
-            <TimeSelector />
+            <TimePicker />
         </Container>
     );
 }

@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import CSS from "csstype";
-import { setSelectedDateAction } from "../../redux/actions";
-import { getMonthIndex, getSelectedDate } from "../../redux/selectors";
+import { setSelectedDateAction } from "../../../redux/actions";
+import { getMonthIndex, getSelectedDate } from "../../../redux/selectors";
 
 type CellProps = {
     backgroundColor: CSS.Property.BackgroundColor;
@@ -28,11 +28,11 @@ const Wrapper = styled.div`
     height: 100%;
 `;
 
-type SchedulerCellProps = {
+type DatePickerCellProps = {
     date: Date;
 };
 
-function SchedulerCell({ date }: SchedulerCellProps) {
+function DatePickerCell({ date }: DatePickerCellProps) {
     const dispatch = useDispatch();
     const monthIndex = useSelector(getMonthIndex);
     const selectedDate = useSelector(getSelectedDate);
@@ -80,4 +80,4 @@ function getTextColor(isSelected: boolean, isCurrentMonth: boolean) {
     return "black";
 }
 
-export default SchedulerCell;
+export default DatePickerCell;

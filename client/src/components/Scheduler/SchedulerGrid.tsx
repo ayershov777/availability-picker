@@ -4,6 +4,19 @@ import { getDates } from "../../redux/selectors";
 import { WEEKDAYS } from "../../utils/dateTime";
 import SchedulerCell from "./SchedulerCell";
 
+export type GridAnimationVariant = "left" | "right" | "idle";
+
+type GridProps = {
+    animationVariant: GridAnimationVariant;
+};
+
+const Grid = styled.div<GridProps>`
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(7, 1fr);
+    animation: ${({animationVariant}) => getGridAnimation(animationVariant)} 400ms ease-out;
+`;
+
 const slideFromRight = keyframes`
     0% {
         transform: translateX(100%);
@@ -17,28 +30,15 @@ const slideFromRight = keyframes`
 `;
 
 const slideFromLeft = keyframes`
-  0% {
-    transform: translateX(-100%);
-  }
-  50% {
-    transform: translateX(-20%);
-  }
-  to {
-    transform: translateX(0%);
-  }
-`;
-
-export type GridAnimationVariant = "left" | "right" | "idle";
-
-type GridProps = {
-    animationVariant: GridAnimationVariant;
-};
-
-const Grid = styled.div<GridProps>`
-    display: grid;
-    position: relative;
-    grid-template-columns: repeat(7, 1fr);
-    animation: ${({animationVariant}) => getGridAnimation(animationVariant)} 400ms ease-out;
+    0% {
+        transform: translateX(-100%);
+    }
+    50% {
+        transform: translateX(-20%);
+    }
+    to {
+        transform: translateX(0%);
+    }
 `;
 
 function getGridAnimation(variant: GridAnimationVariant) {

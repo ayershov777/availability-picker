@@ -26,7 +26,7 @@ const Button = styled.button`
 
 type MonthPickerProps = {
     setGridAnimation: React.Dispatch<React.SetStateAction<GridAnimationVariant>>;
-}
+};
 
 function MonthPicker({ setGridAnimation }: MonthPickerProps) {
     const monthIndex = useSelector(getMonthIndex);

@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 
 import SchedulerGrid, { GridAnimationVariant } from "./SchedulerGrid";
 import MonthPicker from "./MonthPicker";
@@ -36,9 +36,7 @@ function Scheduler() {
                 <MonthPicker setGridAnimation={setGridAnimation} />
                 <SchedulerGrid gridAnimation={gridAnimation} setGridAnimation={setGridAnimation} />
             </DatePickerPanel>
-
             
-
             <TimeSelector />
         </Container>
     );

@@ -3,12 +3,11 @@ import styled from "styled-components";
 import CSS from "csstype";
 import { setSelectedDateAction } from "../../redux/actions";
 import { getMonthIndex, getSelectedDate } from "../../redux/selectors";
-import useViewport, { Viewport } from '../../hooks/useViewport';
 
 type CellProps = {
     backgroundColor: CSS.Property.BackgroundColor;
     textColor: CSS.Property.Color;
-}
+};
 
 const Cell = styled.div<CellProps>`
     margin: auto;

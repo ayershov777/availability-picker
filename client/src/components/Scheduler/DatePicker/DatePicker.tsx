@@ -17,14 +17,12 @@ export default function DatePicker() {
 
     const [resolveAnimationEnded, setResolveAnimationEnded] = useState<(value: void | PromiseLike<void>) => void>();
 
-    console.log(resolveAnimationEnded)
-
-    const animateGrid = useCallback(function(variant: GridAnimationVariant) {
-        return new Promise<void>((resolve) => {
+    const animateGrid = useCallback((variant: GridAnimationVariant) => (
+        new Promise<void>((resolve) => {
             setGridAnimation(variant);
             setResolveAnimationEnded(() => resolve);
-        });
-    }, []);
+        })
+    ), []);
 
     return (
         <Container ref={datePickerPanelRef}>

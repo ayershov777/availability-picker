@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { advanceMonthAction, reverseMonthAction } from "../../redux/actions";
 import { getMonthIndex, getYear } from "../../redux/selectors";
 import { MONTHS } from "../../utils/dateTime";
-import { GridAnimationVariant } from "./SchedulerGrid";
+import { GridAnimationVariant } from "./SchedulerGridContainer";
 
 const Container = styled.div`
     display: flex;

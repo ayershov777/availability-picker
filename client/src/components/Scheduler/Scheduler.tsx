@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
-import SchedulerGrid, { GridAnimationVariant } from "./SchedulerGrid";
+import SchedulerGrid from "./SchedulerGrid";
 import MonthPicker from "./MonthPicker";
 import TimeSelector from "../TimeSelector/TimeSelector";
 import useViewport, { Viewport } from "../../hooks/useViewport";
 import { useState } from "react";
+import { GridAnimationVariant } from "./SchedulerGridContainer";
 
 const Container = styled.div<{viewport: Viewport}>`
     display: flex;

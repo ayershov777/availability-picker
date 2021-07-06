@@ -38,7 +38,6 @@ const Grid = styled.div<GridProps>`
     display: grid;
     position: relative;
     grid-template-columns: repeat(7, 1fr);
-    row-gap: 16px;
     animation: ${({animationVariant}) => getGridAnimation(animationVariant)} 400ms ease-out;
 `;
 
@@ -54,6 +53,7 @@ const WeekdayLabel = styled.div`
     text-align: center;
     font-size: 14pt;
     font-weight: bold;
+    margin: 0 2px;
 `;
 
 type SchedulerGridProps = {

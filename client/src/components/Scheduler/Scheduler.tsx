@@ -16,6 +16,7 @@ const DatePickerPanelDesktop = styled.div`
     top: 0px;
     display: inline-block;
     vertical-align: top;
+    margin 0 8px;
 `;
 
 const DatePickerPanelMobile = styled.div`
@@ -24,58 +25,10 @@ const DatePickerPanelMobile = styled.div`
     margin-right: auto;
 `;
 
-const InnerContainer = styled.div`
-    position: sticky;
-    top: 0;
-`;
-
-const slideDown = keyframes`
-    from {
-        height: 0;
-    }
-
-    to {
-        height: 3.5rem;
-    }
-`;
-
-// const DatePickerBar = styled.div`
-//     display: block;
-//     position: fixed;
-//     margin-left: auto;
-//     margin-right: auto;
-//     top: 0px;
-//     height: 3.5rem;
-//     width: 100%;
-//     border-bottom: 1px solid rgba(105, 105, 105, 0.5);
-//     margin-bottom: 1rem;
-//     z-index: 10;
-//     background-color: white;
-//     box-shadow: 1px 5px 5px grey;
-//     text-align: center;
-//     color: #1a73e8;
-//     font-weight: 600;
-//     font-size: 1.1rem;
-//     font-family: monospace;
-//     transition: filter 250ms;
-//     animation: ${slideDown} 0.3s ease-out;
-
-//     &:hover {
-//         filter: brightness(0.7);
-//     }
-    
-//     & sub {
-//         cursor: pointer;
-//     }
-// `;
-
 function Scheduler() {
     const viewport = useViewport();
     const DatePickerPanel = viewport >= Viewport.SM ? DatePickerPanelDesktop : DatePickerPanelMobile;
     const [gridAnimation, setGridAnimation] = useState<GridAnimationVariant>("idle");
-    
-    // const selectedDate = useSelector(getSelectedDate);
-    // const [showDateBar, setShowDateBar] = useState(false);
 
     return (
         <Container viewport={viewport}>
@@ -84,15 +37,7 @@ function Scheduler() {
                 <SchedulerGrid gridAnimation={gridAnimation} setGridAnimation={setGridAnimation} />
             </DatePickerPanel>
 
-            {/* {showDateBar && 
-                <DatePickerBar>
-                    <p>
-                        {selectedDate?.toDateString()}
-                        {" "}
-                        <sub className="material-icons">expand_more</sub>
-                    </p>
-                </DatePickerBar> 
-            } */}
+            
 
             <TimeSelector />
         </Container>

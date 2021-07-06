@@ -8,26 +8,19 @@ import useViewport, { Viewport } from '../../hooks/useViewport';
 type CellProps = {
     backgroundColor: CSS.Property.BackgroundColor;
     textColor: CSS.Property.Color;
-    circleSize: string;
-    borderColor: CSS.Property.Color;
 }
 
 const Cell = styled.div<CellProps>`
     margin: auto;
-    height: ${props => props.circleSize};
-    width: ${props => props.circleSize};
-    line-height: ${props => props.circleSize};
-    border-radius: 50%;
+    line-height: 32px;
     text-align: center;
     background-color: ${props => props.backgroundColor};
     color: ${props => props.textColor};
-    border: ${props => `1px solid ${props.borderColor}`};
     cursor: pointer;
 
     &:hover {
         background-color: #99bff1;
         color: black;
-        border: 1px solid ${props => props.backgroundColor};
     }
 `;
 
@@ -44,9 +37,12 @@ function SchedulerCell({ date }: SchedulerCellProps) {
     const dispatch = useDispatch();
     const monthIndex = useSelector(getMonthIndex);
     const selectedDate = useSelector(getSelectedDate);
-    const viewport = useViewport();
 
-    const {backgroundColor, textColor, circleSize, borderColor} = getCellStyles(viewport, monthIndex, selectedDate, date);
+    const isSelected = selectedDate.toDateString() === date.toDateString();
+    const isCurrentMonth = monthIndex === date.getMonth();
+
+    const backgroundColor = getBackgroundColor(isSelected);
+    const textColor = getTextColor(isSelected, isCurrentMonth);
 
     function selectDay() {
         dispatch(setSelectedDateAction(date));
@@ -55,37 +51,34 @@ function SchedulerCell({ date }: SchedulerCellProps) {
     function handleClick() {
         selectDay();
     }
+
     return (
         <Wrapper>
-            <Cell onClick={handleClick} backgroundColor={backgroundColor} textColor={textColor} circleSize={circleSize || "calc(100vw/20)"} borderColor={borderColor || 'currentcolor'} >
+            <Cell onClick={handleClick} backgroundColor={backgroundColor} textColor={textColor}>
                 {date.getDate()}
             </Cell>
         </Wrapper>
     );
 }
 
-function getCellStyles(
-    viewport: Viewport,
-	monthIndex: number,
-	selectedDate: Date,
-	date: Date
-) {
-	const selectedMonth = selectedDate?.getMonth(),
-		cellMonth = date.getMonth(),
-		cellDate = date.getDate(),
-        circleSize = viewport >= Viewport.SM ? "calc(100vw/30)" : "calc(100vw/15)";
-    if (selectedMonth === cellMonth && selectedDate?.getDate() === cellDate)
-		return {
-			backgroundColor: "#FFFFFF",
-			textColor: "#1a73e8",
-            circleSize,
-			borderColor: "#1a73e8",
-		};
-	if (monthIndex === cellMonth) {
-		return { backgroundColor: "#1a73e8", textColor: "#FFFFFF", circleSize };
-	}
+function getBackgroundColor(isSelected: boolean) {
+    if(isSelected) {
+        return "#1a73e8";
+    }
 
-	return { backgroundColor: "lightgray", textColor: "#FFFFFF", circleSize };
+    return "white";
+}
+
+function getTextColor(isSelected: boolean, isCurrentMonth: boolean) {
+    if(isSelected) {
+        return "white";
+    }
+
+    if(!isCurrentMonth) {
+        return "lightgray";
+    }
+
+    return "black";
 }
 
 export default SchedulerCell;

@@ -8,7 +8,7 @@ import { GridAnimationVariant } from "./SchedulerGrid";
 
 const Container = styled.div`
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     margin: 16px 0;
 `;
@@ -58,7 +58,7 @@ function MonthPicker({ setGridAnimation }: MonthPickerProps) {
             <Button onClick={handleClickPrevious}>
                 &lt;
             </Button>
-            <h1>{month} {year}</h1>
+            <h2>{month} {year}</h2>
             <Button onClick={handleClickNext}>
                 &gt;
             </Button>

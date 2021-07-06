@@ -10,13 +10,17 @@ const slideDown = keyframes`
     from {
         top: -200px;
     }
-  
+
     to {
         top: 0;
     }
 `;
 
-const Container = styled.div<{viewport: Viewport}>`
+type ContainerProps = {
+    viewport: Viewport;
+};
+
+const Container = styled.div<ContainerProps>`
     flex: 1;
     min-width: 276px;
     margin: 1rem 0 0 0;

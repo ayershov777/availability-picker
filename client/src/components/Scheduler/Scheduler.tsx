@@ -6,7 +6,7 @@ import MonthPicker from "./MonthPicker";
 import TimeSelector from "../TimeSelector/TimeSelector";
 import { getSelectedDate } from "../../redux/selectors";
 import useViewport, { Viewport } from "../../hooks/useViewport";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const Container = styled.div<{viewport: Viewport}>`
     display: flex;
@@ -65,62 +65,36 @@ const DatePickerBar = styled.div`
     &:hover {
         filter: brightness(0.7);
     }
+    
     & sub {
         cursor: pointer;
     }
 `;
 
 function Scheduler() {
-    const selectedDate = useSelector(getSelectedDate);
     const viewport = useViewport();
     const DatePickerPanel = viewport >= Viewport.SM ? DatePickerPanelDesktop : DatePickerPanelMobile;
-    const [showDateBar, setShowDateBar] = useState(false);
     const [gridAnimation, setGridAnimation] = useState<GridAnimationVariant>("idle");
-
-    useEffect(() => {
-        const el = document.querySelector(".sentinel");
-
-        const observer = new IntersectionObserver(([e]) => {
-            if (viewport>Viewport.SM) {
-                setShowDateBar(false);
-                return;
-            }
-            e.intersectionRatio < 0.001 ? setShowDateBar(true) : setShowDateBar(false);
-        });
-
-        if(el) {
-            observer.observe(el);
-        }
-        
-        return () => {
-            if(el) {
-                observer.unobserve(el);
-            }
-        };
-
-    }, [viewport]);
+    
+    // const selectedDate = useSelector(getSelectedDate);
+    // const [showDateBar, setShowDateBar] = useState(false);
 
     return (
         <Container viewport={viewport}>
             <DatePickerPanel>
-                <InnerContainer>
-                    <MonthPicker setGridAnimation={setGridAnimation} />
-                    <SchedulerGrid gridAnimation={gridAnimation} setGridAnimation={setGridAnimation} />
-                    <div className="sentinel"></div>
-                </InnerContainer>
+                <MonthPicker setGridAnimation={setGridAnimation} />
+                <SchedulerGrid gridAnimation={gridAnimation} setGridAnimation={setGridAnimation} />
             </DatePickerPanel>
 
-            {showDateBar && 
-                <DatePickerBar onClick={()=>window.scroll({
-                    top: 0, behavior: 'smooth'
-                  })}>
+            {/* {showDateBar && 
+                <DatePickerBar>
                     <p>
                         {selectedDate?.toDateString()}
                         {" "}
                         <sub className="material-icons">expand_more</sub>
                     </p>
                 </DatePickerBar> 
-            }
+            } */}
 
             <TimeSelector />
         </Container>

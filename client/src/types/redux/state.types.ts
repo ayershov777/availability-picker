@@ -4,7 +4,7 @@ export type SchedulerReducer = {
     monthIndex: MonthIndex;
     year: number;
     dates: Date[];
-    selectedDate?: Date;
+    selectedDate: Date;
     availabilities: Record<string, CalendarAvailability[]>;
 };
 

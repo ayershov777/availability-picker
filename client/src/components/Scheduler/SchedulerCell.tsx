@@ -67,7 +67,7 @@ function SchedulerCell({ date }: SchedulerCellProps) {
 function getCellStyles(
     viewport: Viewport,
 	monthIndex: number,
-	selectedDate: Date | undefined,
+	selectedDate: Date,
 	date: Date
 ) {
 	const selectedMonth = selectedDate?.getMonth(),

@@ -16,6 +16,7 @@ export const initialState: SchedulerReducer = {
     monthIndex: getCurrentMonth(),
     dates: getInitialDates(),
     availabilities: initialAvailabilities,
+    selectedDate: new Date(),
 };
 
 export function schedulerReducer(state = initialState, { type, payload }: SchedulerActions): SchedulerReducer {
@@ -46,7 +47,7 @@ export function schedulerReducer(state = initialState, { type, payload }: Schedu
             };
         }
         case "SET_SELECTED_DATE": {
-            const selectedDate = payload as Date | undefined;
+            const selectedDate = payload as Date;
             return { ...state, selectedDate };
         }
         default: {

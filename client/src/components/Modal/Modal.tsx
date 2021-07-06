@@ -10,7 +10,7 @@ type ModalProps = {
     children: string | JSX.Element | JSX.Element[];
     backdropColor?: CSS.Property.BackgroundColor;
     backgroundColor?: CSS.Property.BackgroundColor;
-    closeModalCallback: () => void;
+    closeModalCallback?: () => void;
 };
 
 function Modal({ children, backdropColor, backgroundColor, closeModalCallback }: ModalProps) {
@@ -18,12 +18,16 @@ function Modal({ children, backdropColor, backgroundColor, closeModalCallback }:
 
     function onKeyDown (e: KeyboardEvent) {
         if(e.code === "Escape") {
-            closeModalCallback();
+            if(closeModalCallback) {
+                closeModalCallback();
+            }
         }
     }
 
     function onClickBackdrop(e: React.MouseEvent) {
-        closeModalCallback();
+        if(closeModalCallback) {
+            closeModalCallback();
+        }
     }
 
     function hideScroll() {

@@ -15,7 +15,7 @@ export function reverseMonthAction (monthId: MonthId): ReverseMonthAction {
     };
 }
 
-export function setSelectedDateAction (date: Date | undefined): SetSelectedDateAction {
+export function setSelectedDateAction (date: Date): SetSelectedDateAction {
     return {
         type: "SET_SELECTED_DATE",
         payload: date,

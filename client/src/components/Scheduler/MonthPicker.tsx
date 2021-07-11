@@ -7,9 +7,15 @@ import { MONTHS } from "../../utils/dateTime";
 import { GridAnimationVariant } from "./DatePicker/DatePickerGrid";
 
 const Container = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    padding: 16px 0;
+`;
+
+const Heading = styled.div`
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: bold;
 `;
 
 const Button = styled.button`
@@ -43,15 +49,15 @@ function MonthPicker({ animateGrid }: MonthPickerProps) {
     }
 
     async function handleClickNext() {
-        await animateGrid("left-out");
-        advanceMonth();
-        await animateGrid("left-in");
-    }
-
-    async function handleClickPrevious() {
         await animateGrid("right-out");
         reverseMonth();
         await animateGrid("right-in");
+    }
+
+    async function handleClickPrevious() {
+        await animateGrid("left-out");
+        advanceMonth();
+        await animateGrid("left-in");
     }
 
     return (
@@ -59,7 +65,7 @@ function MonthPicker({ animateGrid }: MonthPickerProps) {
             <Button onClick={handleClickPrevious}>
                 &lt;
             </Button>
-            <h2>{month} {year}</h2>
+            <Heading>{month} {year}</Heading>
             <Button onClick={handleClickNext}>
                 &gt;
             </Button>

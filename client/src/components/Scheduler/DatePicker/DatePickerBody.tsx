@@ -1,10 +1,10 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import useViewport, { Viewport } from "../../../hooks/useViewport";
 import { getDates } from "../../../redux/selectors";
 import { WEEKDAYS } from "../../../utils/dateTime";
 import DatePickerCell from "./DatePickerCell";
-import DatePickerGrid, { GridAnimationVariant } from "./DatePickerGrid";
+import { LargeDatePickerGrid, DefaultDatePickerGrid, GridAnimationVariant } from "./DatePickerGrid";
 
 const WeekdayLabel = styled.div`
     text-align: center;
@@ -18,14 +18,17 @@ type DatePickerBodyProps = {
     resolveAnimationEnded: undefined | ((value: void | PromiseLike<void>) => void);
 };
 
-export default function DatePickerBody({ gridAnimation, resolveAnimationEnded }: DatePickerBodyProps) {
+function DatePickerBody({ gridAnimation, resolveAnimationEnded }: DatePickerBodyProps) {
     const dates = useSelector(getDates);
+    const viewport = useViewport();
 
     function onAnimationEnd() {
         if(resolveAnimationEnded) {
             resolveAnimationEnded();
         }
     }
+
+    const DatePickerGrid = getDatePickerGrid(viewport);
 
     return (
         <DatePickerGrid animationVariant={gridAnimation} onAnimationEnd={onAnimationEnd}>
@@ -43,3 +46,18 @@ export default function DatePickerBody({ gridAnimation, resolveAnimationEnded }:
         </DatePickerGrid>
     );
 }
+
+function getDatePickerGrid(viewport: Viewport) {
+    switch(viewport) {
+        case Viewport.XS:
+        case Viewport.SM:
+        case Viewport.MD:
+        case Viewport.XL:
+            return DefaultDatePickerGrid
+        case Viewport.LG:
+            return LargeDatePickerGrid;
+        default: return LargeDatePickerGrid;
+    }
+}
+
+export default DatePickerBody;

@@ -12,10 +12,6 @@ type TimeSlotsSelectorProps = {
     date: Date;
 };
 
-type ContainerProps = {
-    margin: number;
-};
-
 const Container = styled.div`
     max-height: 1728px;
     height: 1728px;

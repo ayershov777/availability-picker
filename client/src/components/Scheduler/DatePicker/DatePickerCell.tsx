@@ -7,25 +7,23 @@ import { getMonthIndex, getSelectedDate } from "../../../redux/selectors";
 type CellProps = {
     backgroundColor: CSS.Property.BackgroundColor;
     textColor: CSS.Property.Color;
+    isSelected: boolean;
 };
 
 const Cell = styled.div<CellProps>`
-    margin: auto;
-    line-height: 32px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 16pt;
     background-color: ${props => props.backgroundColor};
     color: ${props => props.textColor};
     cursor: pointer;
 
     &:hover {
-        background-color: #99bff1;
+        background-color: ${props => props.isSelected ? props.backgroundColor : "#99bff1"};
         color: black;
     }
-`;
-
-const Wrapper = styled.div`
-    width: 100%;
-    height: 100%;
 `;
 
 type DatePickerCellProps = {
@@ -52,11 +50,9 @@ function DatePickerCell({ date }: DatePickerCellProps) {
     }
 
     return (
-        <Wrapper>
-            <Cell onClick={handleClick} backgroundColor={backgroundColor} textColor={textColor}>
-                {date.getDate()}
-            </Cell>
-        </Wrapper>
+        <Cell isSelected={isSelected} onClick={handleClick} backgroundColor={backgroundColor} textColor={textColor}>
+            {date.getDate()}
+        </Cell>
     );
 }
 

@@ -54,6 +54,26 @@ const slideInFromLeft = keyframes`
     }
 `;
 
+type GridProps = {
+    animationVariant: GridAnimationVariant;
+};
+
+const Grid = styled.div<GridProps>`
+    display: grid;
+    position: relative;
+    animation: ${({animationVariant}) => getGridAnimation(animationVariant)} 200ms ease-out;
+`;
+
+export const LargeDatePickerGrid = styled(Grid)`
+    grid-template-columns: repeat(7, 40px);
+    grid-template-rows: repeat(7, 40px);
+`;
+
+export const DefaultDatePickerGrid = styled(Grid)`
+    grid-template-columns: repeat(7, 48px);
+    grid-template-rows: repeat(7, 40px);
+`;
+
 function getGridAnimation(variant: GridAnimationVariant) {
     switch(variant) {
         case "left-in": return slideInFromLeft;
@@ -63,16 +83,3 @@ function getGridAnimation(variant: GridAnimationVariant) {
         case "idle": return "none";
     }
 }
-
-type DatePickerGridProps = {
-    animationVariant: GridAnimationVariant;
-};
-
-const DatePickerGrid = styled.div<DatePickerGridProps>`
-    display: grid;
-    position: relative;
-    grid-template-columns: repeat(7, 1fr);
-    animation: ${({animationVariant}) => getGridAnimation(animationVariant)} 200ms ease-out;
-`;
-
-export default DatePickerGrid;

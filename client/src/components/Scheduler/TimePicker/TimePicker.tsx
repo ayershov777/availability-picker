@@ -1,15 +1,16 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import styled, { CSSProperties } from "styled-components";
 import { getSelectedAvailabilities, getSelectedDate } from "../../../redux/selectors";
 import { CalendarAvailability } from "../../../types/common/dateTime.types";
+import { SCROLLBAR_WIDTH } from "../../../utils/common";
 import { getInitialTimes, MILLIS_PER_FIFTEEN_MINUTES } from "../../../utils/dateTime";
 
 const slotHeight = 18; // pixels
 
-const Container = styled.div`
-    flex: 1;
-    min-height: 300px;
+const ScrollHider = styled.div`
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 `;
 
 const Slot = styled.div`
@@ -17,7 +18,6 @@ const Slot = styled.div`
     color: steelblue;
     text-align: center;
     font-family: monospace;
-    min-width: 276px;
     font-size: 1.1rem;
 `;
 
@@ -30,6 +30,11 @@ const Slots = styled.div`
     ${Slot}:nth-child(4n-2) {
         background-color: lightblue;
     }
+    width: calc(100% + ${SCROLLBAR_WIDTH}px);
+    height: 100vh;
+    overflow-y: scroll;
+    padding-right: ${SCROLLBAR_WIDTH}px;
+    box-sizing: content-box;
 `;
 
 const Availability = styled.div<CSSProperties>`
@@ -94,8 +99,8 @@ export default function TimePicker() {
     }
 
     return (
-        <Container>
-            <div onMouseDown={onMouseDown} onTouchStart={onTouchStart}>
+        <div onMouseDown={onMouseDown} onTouchStart={onTouchStart}>
+            <ScrollHider>
                 <Slots>
                     {slots.map((slot, idx) => (
                         <Slot key={`slot-${idx}`} data-idx={idx}>
@@ -103,14 +108,14 @@ export default function TimePicker() {
                         </Slot>
                     ))}
                 </Slots>
-                {availabilities.map((availability, idx) => (
-                    <Availability
-                        key={`availability-${idx}`}
-                        top={getTop(availability)}
-                        height={getHeight(availability)}
-                    />
-                ))}
-            </div>
-        </Container>
+            </ScrollHider>
+            {availabilities.map((availability, idx) => (
+                <Availability
+                    key={`availability-${idx}`}
+                    top={getTop(availability)}
+                    height={getHeight(availability)}
+                />
+            ))}
+        </div>
     );
 }

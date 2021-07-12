@@ -3,6 +3,7 @@ import styled from "styled-components";
 import DatePicker from "./DatePicker/DatePicker";
 import TimePicker from "./TimePicker/TimePicker";
 import useViewport, { Viewport } from "../../hooks/useViewport";
+import MobileLayout from '../MobileLayout/MobileLayout';
 
 const Grid = styled.div`
     display: grid;
@@ -22,17 +23,26 @@ const LargeContainer = styled(Grid)`
 `;
 
 function Scheduler() {
-    const viewport = useViewport();
+    // const viewport = useViewport();
 
-    const Container = getContainer(viewport);
+    // const Container = getContainer(viewport);
 
+    // return (
+    //     <Container>
+    //         <DatePicker />
+    //         <TimePicker />
+    //         <div>test</div>
+    //     </Container>
+    // );
     return (
-        <Container>
-            <DatePicker />
-            <TimePicker />
-            <div>test</div>
-        </Container>
-    );
+			<MobileLayout
+				keepOpen={false}
+				TopComponent={<h2 style={{ textAlign: "center" }}>What goes here?</h2>}
+				BottomComponent={<DatePicker expanded={undefined} />}
+			>
+				<TimePicker />
+			</MobileLayout>
+		);
 }
 
 function getContainer(viewport: Viewport) {

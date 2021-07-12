@@ -11,7 +11,11 @@ const Container = styled.div`
     padding: 0 8px;
 `;
 
-export default function DatePicker() {
+type DatePickerProps = {
+    expanded: boolean | undefined;
+};
+
+export default function DatePicker({expanded}: DatePickerProps) {
     const [gridAnimation, setGridAnimation] = useState<GridAnimationVariant>("idle");
     const datePickerPanelRef = useRef<HTMLDivElement>(null);
 
@@ -27,7 +31,9 @@ export default function DatePicker() {
     return (
         <Container ref={datePickerPanelRef}>
             <MonthPicker animateGrid={animateGrid} />
-            <DatePickerBody gridAnimation={gridAnimation} resolveAnimationEnded={resolveAnimationEnded} />
+            {expanded && 
+                <DatePickerBody gridAnimation={gridAnimation} resolveAnimationEnded={resolveAnimationEnded} />
+            }
         </Container>
     );
 }
